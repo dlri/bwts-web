@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Custom DataGrid Pager - jQuery EasyUI Demo</title>
+<link rel="stylesheet" type="text/css"
+	href="jquery-easyui-1.5.4.5/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="jquery-easyui-1.5.4.5/themes/icon.css">
+<script type="text/javascript" src="jquery-easyui-1.5.4.5/jquery.min.js"></script>
+<script type="text/javascript"
+	src="jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript"
+	src="js/mydate.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/series-label.js"></script>
+<script src="js/exporting.js"></script>
+<script src="js/export-data.js"></script>
+
+  <style>
+        div {
+            width: 200px;
+            height: 100px;
+            border: 1px solid red;
+        }
+    </style>
+    <script>
+    jQuery (function ($)
+    	    {
+    	        var body = $ ("body");
+    	        $ (new Array (4)).each (function (i)
+    	        {
+    	            $ (new Array (3)).each (function (j)
+    	            {
+    	            	 var parentdiv=$ ("<div>RUN00</div>").css (
+    	     	                {
+    	    	                    display: "inline-table",
+    	    	                    width: "425px",
+    	    	                    height:"92px",
+    	    	                    textAlign: "center",
+    	    	                    cursor: "pointer",
+    	    	                    margin: "0px 0px 10px 10px",
+    	    	                    backgroundImage: "url(img/divbg.png)",
+    	    	                    color:"#fff"
+    	    	                });        //创建一个父div
+    	    	               parentdiv.attr('id','parent'+(i * 3 + j + 1));            //给子div设置id
+    	    	               
+    	    	               $ (new Array (4)).each (function (k){
+    	    	            	   var childdiv=$('<div>111</div>').css({
+    	    	    	            	 display: "inline-table",
+    	 	    	                    width: "50px",
+    	 	    	                    height:"22px",
+    	 	    	                    textAlign: "center",
+    	 	    	                    cursor: "pointer",
+    	 	    	                    margin: "0px 0px 10px 10px",
+    	 	    	                    border : "3px solid red" ,
+    	 	    	                    color:"#fff"
+    	    	    	            }); 
+    	    	            	   childdiv.attr('id','child'+(i * 3 + j + 1)+k);
+    	    	    	            parentdiv.append(childdiv);
+    	    	               });
+    	    	            	  
+    	            	    body.append(parentdiv);
+    	                
+    	            });
+    	            body.append ("<br / >");
+    	        });
+    	    });
+    </script>
+</head>
+<body>
+
+</body>
+</html>
