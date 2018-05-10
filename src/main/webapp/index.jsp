@@ -63,13 +63,13 @@
                 margin: 0px;
                 overflow:hidden;
             }   
-#div {
+#canvas {
 	position: absolute;
-	left: 100px;
+	left: 0px;
 	top: 100px;
 	width: 1980px;
 	height: 1024px;
-	background-color: #f60;
+	background-color: #31334f;
 	
 	z-index:-1;
 }
@@ -100,11 +100,11 @@
 </head>
 
 <body style="background:#31334f">
-	<div style="background-color:#292028;height:100px;z-index:3;color:#fff;">
+	<div id="banner" style="background-color:#292028;height:100px;z-index:3;color:#fff;">
 		
 		11111
 	</div>
-<div id="div">
+	<div id="canvas">
 	
 	<!-- <div class="unit" > -->
 	<!-- 
@@ -125,46 +125,40 @@
 		</div>
 	</div>
 <script type="text/javascript">
-var div = document.getElementById("div");
+//Begin画布移动操作开始
+var canvas = document.getElementById("canvas");
 var dragFlag = false;
 var x,y;
-
-div.onmousedown = function (e) {
+canvas.onmousedown = function (e) {
 	e = e || window.event;
-	x = e.clientX - div.offsetLeft;
-	y = e.clientY - div.offsetTop;
+	x = e.clientX - canvas.offsetLeft;
+	y = e.clientY - canvas.offsetTop;
 	dragFlag = true;
 };
-
 document.onmousemove = function (e) {
 	if (dragFlag) {
 		e = e || window.event;
-		div.style.left = e.clientX - x + "px";
-		div.style.top  = e.clientY - y + "px";
+		canvas.style.left = e.clientX - x + "px";
+		canvas.style.top  = e.clientY - y + "px";
 	}
 };
-
 document.onmouseup = function (e) {
 	dragFlag = false;
 };
+//End画布移动操作开始
 
-/**
- * 获取当前时间 格式：yyyy-MM-dd HH:MM:SS
- */
+ //获取当前时间 格式：yyyy-MM-dd HH:MM:SS
 function getTestTime(date) {
     var month = zeroFill(date.getMonth() + 1);//月
     var day = zeroFill(date.getDate());//日
     var hour = zeroFill(date.getHours());//时
     var minute = zeroFill(date.getMinutes());//分
-    var second = zeroFill(date.getSeconds());//秒
-    
+    var second = zeroFill(date.getSeconds());//秒   
     //当前时间
     var curTime = date.getFullYear() + "-" + month + "-" + day
-            + " " + hour + ":" + minute + ":" + second;
-    
+            + " " + hour + ":" + minute + ":" + second;   
     return curTime;
 }
-
 /**
  * 补零
  */
@@ -188,7 +182,7 @@ $.ajax({
 		//alert(parseFloat(json[0]['col7']));
 		//$('#gbp1').html(parseFloat(json[0]['col7']));
 		
-		var unit = $ ("#div");
+		var unit = $ ("#canvas");
 		//共显示4行设备
         $ (new Array (4)).each (function (i)
         {
@@ -213,6 +207,7 @@ $.ajax({
     	                    cursor: "pointer",
     	                    margin: "10px 10px 10px 10px",
     	                    backgroundImage: "url(img/divbg.png)",
+    	                    border : "2px solid #31334f",
     	                    color:"#fff"
     	                });        //创建一个父div
     	               parentdiv.attr('id','parent'+(i * 3 + j + 1));//给子div设置id
@@ -228,7 +223,7 @@ $.ajax({
  	    	                    textAlign: "center",
  	    	                    cursor: "pointer",
  	    	                    margin: "0px 0px 10px 10px",
- 	    	                    border : "3px solid red" ,
+ 	    	                   // border : "3px solid red" ,
  	    	                    color:"#fff"
     	    	            }); 
     	            	   childdiv.attr('id','child'+(i * 3 + j + 1)+k);
@@ -261,13 +256,21 @@ $.ajax({
 
 	}
 });
+
+//循环添加鼠标单击事件
 $ (new Array (12)).each (function (ii){
-	
-	$("#parent"+(ii+1)).click(function(){                //鼠标单击事件  
+	//鼠标单击事件
+	$("#parent"+(ii+1)).click(function(){                  
+		//清除上次选中的边框为原默认色
+		$(new Array(12)).each(function(jj){
+			$("#parent"+(jj+1)).css({
+				border : "2px solid #31334f"
+				})
+		 });
+		//选中边框变色
 		$("#parent"+(ii+1)).css({
-			border : "3px solid blue"
+			border : "2px solid #9899a7"
 			})
-	    //alert("单击层被选择id: parent1");  
 	 });
 });
 
