@@ -55,12 +55,12 @@
 			<thead>
 				<tr>
 					<th data-options="field:'id',width:40,align:'center'">序号</th>
-					<th data-options="field:'wheelId',width:60,align:'center'">轮对编号</th>
-					<th data-options="field:'repairRank',width:40,align:'center'">修程</th>
-					<th data-options="field:'aBearingNum',width:60,align:'center'">A侧轴承编号</th>
-					<th data-options="field:'bBearingNum',width:60,align:'center'">B侧轴承编号</th>
-					<th data-options="field:'detectionTime',formatter:formatDateBoxFull,width:120,align:'center'">检测时间</th>
-					<th data-options="field:'tBedType',width:140,align:'center'">文件名称</th>
+					<th data-options="field:'col1',width:60,align:'center'">轮对编号</th>
+					<th data-options="field:'col2',width:40,align:'center'">修程</th>
+					<th data-options="field:'col3',width:60,align:'center'">A侧轴承编号</th>
+					<th data-options="field:'col4',width:60,align:'center'">B侧轴承编号</th>
+					<th data-options="field:'testTime',formatter:formatDateBoxFull,width:120,align:'center'">检测时间</th>
+					<th data-options="field:'col42',width:140,align:'center'">文件名称</th>
 				</tr>
 			</thead>
 		</table>
@@ -71,7 +71,7 @@
 			data-options="singleSelect:true,collapsible:true,method:'get'">
 			<thead>
 				<tr>
-					<th data-options="field:'detectionDetailses.channelName',width:80,align:'center'">测点名</th>
+					<th data-options="field:'col6',width:80,align:'center'">测点名</th>
 					<th data-options="field:'col7',width:50,align:'center'">有效值</th>
 					<th data-options="field:'col8',width:50,align:'center'">峰值</th>
 					<th data-options="field:'col9',width:50,align:'center'">振动烈度</th>
@@ -119,7 +119,7 @@
 				displayMsg : '当前显示 {from} 到 {to} ,共{total}记录'
 			});
 			
-			 $('#result_tab').datagrid('options').url='detectionRecord/queryDetectionRecordAction.do';
+			 $('#result_tab').datagrid('options').url='record/queryDynRecordTocalAction.do';
 				$('#result_tab').datagrid('load',{
 					startDate:startDate,
 					endDate:endDate,
@@ -133,10 +133,9 @@
 		$('#result_tab').datagrid({
 				//单击事件   
 				onClickRow : function(rowIndex, rowData) {
-					alert(rowData.detectionDetailses.toString());
 					$('#result_tab2').datagrid('loadData', {
 						"rows" : [ {
-							"channelName" : rowData.channelName,
+							"col6" : rowData.col6,
 							"col7" : rowData.col7,
 							"col8" : rowData.col8,
 							"col9" : rowData.col9,
@@ -184,9 +183,6 @@
 		/*折线图显示结果*/
 		$('#result_tab').datagrid({   
 			onLoadSuccess: function(data){ 
-				var data1=data.rows[1]['detectionDetailses'];
-				alert(data1.rows.length);
-				alert(data1[0]['channelName']);
 				var testingValue = $('#testingValue').combobox('getValue');
 				var testingText = $('#testingValue').combobox('getText');
 				var wheelCodeTxt=$('#wheelCode').textbox('getValue');
