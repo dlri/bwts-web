@@ -1,27 +1,12 @@
-<!DOCTYPE html>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+    pageEncoding="UTF-8"%>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
-<head>
-<meta charset="UTF-8">
-<title>Custom DataGrid Pager - jQuery EasyUI Demo</title>
-<link rel="stylesheet" type="text/css"
-	href="jquery-easyui-1.5.4.5/themes/default/easyui.css">
-<link rel="stylesheet" type="text/css"
-	href="jquery-easyui-1.5.4.5/themes/icon.css">
-<script type="text/javascript" src="jquery-easyui-1.5.4.5/jquery.min.js"></script>
-<script type="text/javascript"
-	src="jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
-<script type="text/javascript"
-	src="jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
-<script type="text/javascript"
-	src="js/mydate.js"></script>
-<script src="js/highcharts.js"></script>
-<script src="js/series-label.js"></script>
-<script src="js/exporting.js"></script>
-<script src="js/export-data.js"></script>
-</head>
+
 <body>
 	<div style="width: 100%; padding: 20px;">
 			<div style="margin-bottom: 20px">
+			<input type="hidden" name="bedName" id="bedName" value="${testBedNum}"> 
 				开始时间：
 			    <input id="startDate" class="easyui-datetimebox" value="" style="width: 150px;">
 			          结束时间：
@@ -50,11 +35,11 @@
 			</div>
 	</div>
 	<div style="width: 50%; height: 250px; float: left;">
-		<table id="result_tab" title="检测结果" style="width: 100%; height: 250px;"
+		<table id="testResult" class="easyui-datagrid" title="检测结果" style="width: 100%; height: 250px;"
 			data-options="rownumbers:true,singleSelect:true,pagination:true">
 			<thead>
 				<tr>
-					<th data-options="field:'id',width:40,align:'center'">序号</th>
+					<th data-options="field:'id',width:40,align:'center'">序1号</th>
 					<th data-options="field:'col1',width:60,align:'center'">轮对编号</th>
 					<th data-options="field:'col2',width:40,align:'center'">修程</th>
 					<th data-options="field:'col3',width:60,align:'center'">A侧轴承编号</th>
@@ -66,7 +51,7 @@
 		</table>
 	</div>
 	<div style="width: 50%; height: 250px; float: right;">
-		<table id="result_tab2" class="easyui-datagrid" title="检测值记录："
+		<table id="testResult2" class="easyui-datagrid" title="检测值记录："
 			style="width: 100%; height: 250px;"
 			data-options="singleSelect:true,collapsible:true,method:'get'">
 			<thead>
@@ -102,14 +87,14 @@
 		
 		/* 查询数据条件 */
 		function checkInputQuery(){
-			
-			alert($('#w').title);
+			var bedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
+			alert(bedName+"====");
 			var wheelCode=$('#wheelCode').textbox('getValue');
 			var startDate = $('#startDate').datebox('getValue');
 			var endDate = $('#endDate').datebox('getValue');
 			var repairing = $('#repairing').combobox('getValue');
 			//分页实现
-			var pager = $('#result_tab').datagrid().datagrid('getPager'); // get the pager of datagrid
+			var pager = $('#testResult').datagrid().datagrid('getPager'); // get the pager of datagrid
 			var options=pager.data("pagination").options;
 			pager.pagination({
 				pageSize : 10,
@@ -119,8 +104,8 @@
 				displayMsg : '当前显示 {from} 到 {to} ,共{total}记录'
 			});
 			
-			 $('#result_tab').datagrid('options').url='record/queryDynRecordTocalAction.do';
-				$('#result_tab').datagrid('load',{
+			 $('#testResult').datagrid('options').url='record/queryDynRecordTocalAction.do';
+				$('#testResult').datagrid('load',{
 					startDate:startDate,
 					endDate:endDate,
 					wheelCode:wheelCode,
@@ -130,10 +115,10 @@
 	    }
 		
 		/*二级联动结果列表单击事件*/
-		$('#result_tab').datagrid({
+		$('#testResult').datagrid({
 				//单击事件   
 				onClickRow : function(rowIndex, rowData) {
-					$('#result_tab2').datagrid('loadData', {
+					$('#testResult2').datagrid('loadData', {
 						"rows" : [ {
 							"col6" : rowData.col6,
 							"col7" : rowData.col7,
@@ -181,8 +166,9 @@
 			});
 		
 		/*折线图显示结果*/
-		$('#result_tab').datagrid({   
+		$('#testResult').datagrid({   
 			onLoadSuccess: function(data){ 
+				console.log(data);
 				var testingValue = $('#testingValue').combobox('getValue');
 				var testingText = $('#testingValue').combobox('getText');
 				var wheelCodeTxt=$('#wheelCode').textbox('getValue');

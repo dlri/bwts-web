@@ -20,8 +20,6 @@
 <script src="js/series-label.js"></script>
 <script src="js/exporting.js"></script>
 <script src="js/export-data.js"></script>
-<script type="text/javascript" src="js/pdf.js"></script>
-<script type="text/javascript" src="js/pdf.worker.js"></script>
 <script type="text/javascript">
 	var url = 'helloworld.pdf';
 
@@ -108,11 +106,11 @@ html, body {
 		</div>
 	<div id="canvas" />
 	<!-- 弹出框 -->
-	<div id="w" class="easyui-window" title="Basic Window"
+	<div id="wc" class="easyui-window" title="Basic Window"
 		data-options="closed:true,iconCls:'icon-save',border:'thin',cls:'c2'"
 		style="width: 1200px; height: 600px; padding: 10px;">
 		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'center',href:'main.html'"
+			<div data-options="region:'center'"
 				style="padding: 10px;"></div>
 		</div>
 	</div>
@@ -229,7 +227,7 @@ websocket.onmessage = function (event) {
                      color:"#fff"
              }); 
        	div2.append(div21);
-       	var div211=$('<div><a href="javascript:void(0)" onClick="windowsOpenDialogue(event)" >'+code+'</a></div>').css({
+       	var div211=$('<div><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''+code+'\')\" >'+code+'</a></div>').css({
        	 display: "inline-table",
             width: "100px",
             height:"32px",
@@ -348,9 +346,12 @@ function zeroFill(i){
     }
 }
 
-function windowsOpenDialogue(e){
-	//alert(e.target);
-	$('#w').window('open');
+function windowsOpenDialogue(data){
+	$('#wc').window({
+	    title: data,
+	    href: 'record/show.do?testBedNum='+data,
+	});
+	$('#wc').window('open');
 }
 </script>
 </body>

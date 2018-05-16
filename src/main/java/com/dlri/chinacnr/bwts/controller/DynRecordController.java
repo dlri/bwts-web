@@ -61,6 +61,7 @@ public class DynRecordController {
 	@RequestMapping("/queryDynRecordTocalAction")
 	public @ResponseBody Map<String, Object> queryDynRecordTocalAction(@RequestParam(value="page", required=false) String page, 
             @RequestParam(value="rows", required=false) String rows, HttpServletRequest request){
+		
 		Page pageBean = new Page(Integer.parseInt(page), Integer.parseInt(rows));
 		Map<String, Object> reMap = new HashMap<String, Object>(); 
 		Map<String,Object>map=new HashMap<String, Object>();
@@ -80,4 +81,13 @@ public class DynRecordController {
 		reMap.put("total", total);
 		return reMap;
 	}
+	
+	@RequestMapping("/show")
+	public String show(HttpServletRequest request){
+		String testBedNum=request.getParameter("testBedNum");
+		System.out.println("testBedNum:"+testBedNum);
+		request.setAttribute("testBedNum", testBedNum);
+		return "/show";
+	}
+	
 }

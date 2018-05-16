@@ -40,6 +40,7 @@ public class DetectionRecordController {
 		map.put("firstPage", pageBean.getFirstPage());
         map.put("rows", pageBean.getRows());
 		List<DetectionRecord> list=detectionRecordService.queryDetectionRecordByCondition(map);
+		System.out.println(list.size()+"===========");
 		long total=detectionRecordService.queryDetectionRecordTotal(map);
 		reMap.put("rows", list);
 		reMap.put("total", total);
