@@ -2,12 +2,27 @@
     pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
+<link rel="stylesheet" type="text/css"
+	href="jquery-easyui-1.5.4.5/themes/default/easyui.css">
+<link rel="stylesheet" type="text/css"
+	href="jquery-easyui-1.5.4.5/themes/icon.css">
+<link rel="stylesheet" type="text/css"
+	href="jquery-easyui-1.5.4.5/themes/color.css">
 <script type="text/javascript" src="jquery-easyui-1.5.4.5/jquery.min.js"></script>
+<script type="text/javascript"
+	src="jquery-easyui-1.5.4.5/jquery.easyui.min.js"></script>
+<script type="text/javascript"
+	src="jquery-easyui-1.5.4.5/locale/easyui-lang-zh_CN.js"></script>
+<script type="text/javascript" src="js/mydate.js"></script>
+<script src="js/highcharts.js"></script>
+<script src="js/series-label.js"></script>
+<script src="js/exporting.js"></script>
+<script src="js/export-data.js"></script>
 <script type="text/javascript" src="jquery-easyui-1.5.4.5/plugins/jquery.media.js"></script>
 <body>
 	<div style="width: 100%; padding: 20px;">
 			<div style="margin-bottom: 20px">
-			<input type="hidden" name="bedName" id="bedName" value="${testBedNum}"> 
+			<!-- <input type="hidden" name="bedName" id="bedName" value="${testBedNum}"> -->
 				开始时间：
 			    <input id="startDate" class="easyui-datetimebox" value="" style="width: 150px;">
 			          结束时间：
@@ -21,7 +36,7 @@
 					<option value="五级">五级</option>
 				</select> 
 				轮对编号： 
-				<input id="wheelCode" class="easyui-textbox" style="width: 100px;">
+				<input id="wheelCode1" class="easyui-textbox" style="width: 100px;">
 				检测值： 
 				<select id="testingValue" class="easyui-combobox" name="testingValue"
 					style="width: 100px;">
@@ -33,76 +48,47 @@
 					<option value="17">纹波系数</option>
 				</select> 
 				<a id="query" href="#" class="easyui-linkbutton" iconCls="icon-search" onclick="checkInputQuery();">查询</a>
-			<a href="${pageContext.request.contextPath}/record/download.do" target="_blank" onclick="">显示PDF文档</a>
 			</div>
 	</div>
-	<div id="container" style="width: 100%; height: 350px;"></div>
-	<div style="width: 50%; height: 250px; float: left;">
+	
+	<div style="width: 100%; height: 250px; float: left;">
 		<table id="testResult" class="easyui-datagrid" title="检测结果" style="width: 100%; height: 250px;"
 			data-options="rownumbers:true,singleSelect:true,collapsible:true,pagination:true">
 			<thead>
 				<tr>
-					<th data-options="field:'id',width:40,align:'center'">序1号</th>
-					<th data-options="field:'col006',width:60,align:'center'">轮对编号</th>
-					<th data-options="field:'col007',width:40,align:'center'">修程</th>
-					<th data-options="field:'col008',width:60,align:'center'">A侧轴承编号</th>
-					<th data-options="field:'col009',width:60,align:'center'">B侧轴承编号</th>
+					<th data-options="field:'id',width:40,align:'center'">序号</th>
+					<th data-options="field:'detectionRecord',formatter: openPDFFile1,width:60,align:'center'">轮对编号</th>
+					<th data-options="field:'channelName',width:40,align:'center'">修程</th>
+					<th data-options="field:'aBearingNum',width:60,align:'center'">A侧轴承编号</th>
+					<th data-options="field:'bBearingNum',width:60,align:'center'">B侧轴承编号</th>
 					<th data-options="field:'col010',formatter:formatDateBoxFull,width:120,align:'center'">检测时间</th>
 					<th data-options="field:'col004',width:200,align:'center',formatter: openPDFFile">PDF文件</th>
-					<th data-options="field:'col005',width:200,align:'center',formatter: downloadBGMFile">PDF文件</th>
+					<th data-options="field:'col005',width:100,align:'center',formatter: downloadBGMFile">PDF文件</th>
+					<th data-options="field:'channelName',width:100,align:'center'"> 测点名编号 </th>
+					<th data-options="field:'validValue',width:60,align:'center'">有效值</th>
+					<th data-options="field:'peakValue',width:60,align:'center'">峰值</th>
+					<th data-options="field:'vibrationSeverity',width:60,align:'center'">振动烈度</th>
+					<th data-options="field:'vibrationEnergy',width:60,align:'center'">振动能量</th>
+					<th data-options="field:'peakNum',width:60,align:'center'">峰值个数</th>
+					<th data-options="field:'rippleFactor',width:60,align:'center'">纹波系数</th>
+					<th data-options="field:'evaluation;',width:60,align:'center'">评价</th>
+					<th data-options="field:'nonQualified',width:60,align:'center'">不合格项</th>
 				</tr>
 			</thead>
 		</table>
 	</div>
-	<div style="width: 50%; height: 250px; float: right;">
-		<table id="testResult2" class="easyui-datagrid" title="检测值记录："
-			style="width: 100%; height: 250px;"
-			data-options="singleSelect:true,collapsible:true,method:'get'">
-			<thead>
-				<tr>
-					<th data-options="field:'col011',width:80,align:'center'">测点名</th>
-					<th data-options="field:'col012',width:50,align:'center'">有效值</th>
-					<th data-options="field:'col013',width:50,align:'center'">峰值</th>
-					<th data-options="field:'col014',width:50,align:'center'">振动烈度</th>
-					<th data-options="field:'col015',width:60,align:'center'">振动能量</th>
-					<th data-options="field:'col016',width:60,align:'center'">峰值个数</th>
-					<th data-options="field:'col017',width:60,align:'center'">纹波系数</th>
-					<th data-options="field:'col018',width:60,align:'center'">评价</th>
-					<th data-options="field:'col019',width:100,align:'center'">不合格项</th>
-				</tr>
-			</thead>
-		</table>
-	</div>
-<!-- 
-	<div id="pdfShow" class="easyui-window" title="PDF"
-		data-options="closed:true,iconCls:'icon-save',border:'thin',cls:'c2'"
-		style=" padding: 10px;">
-		<div class="easyui-layout" data-options="fit:true">
-			<div data-options="region:'center'"
-				style="padding: 10px;"></div>
-		</div>
-	</div>-->
+	<div id="container" style="width: 100%; height: 350px;"></div>
 <a id="med" class="media">H63-2304_三级_20180303094450.pdf</a>
 
-	
-
 	<script type="text/javascript">
-		$(function() {
-			
-
-		
-
-			
-
-		});
-		
 		/* 查询数据条件 */
 		function checkInputQuery(){
-			var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
-			var wheelCode=$('#wheelCode').textbox('getValue');
+			//var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
+			var wheelCode=$('#wheelCode1').textbox('getValue');
 			var startDate = $('#startDate').datebox('getValue');
 			var endDate = $('#endDate').datebox('getValue');
 			var repairing = $('#repairing').combobox('getValue');
+		//	var channelName=$('#testingValue').textbox()
 			//分页实现
 			var pager = $('#testResult').datagrid().datagrid('getPager'); // get the pager of datagrid
 			var options=pager.data("pagination").options;
@@ -113,68 +99,17 @@
 				afterPageText : '共{pages}页',
 				displayMsg : '当前显示 {from} 到 {to} ,共{total}记录'
 			});
-			
-			 $('#testResult').datagrid('options').url='record/queryDynRecordTocalAction.do';
+			 $('#testResult').datagrid('options').url='detectionDetails/queryDetailsAction.do';
 				$('#testResult').datagrid('load',{
 					startDate:startDate,
 					endDate:endDate,
 					wheelCode:wheelCode,
 					repairing:repairing,
-					tBedName:tBedName
+					//tBedName:tBedName
 				});
 	             
 	    }
 		
-		/*二级联动结果列表单击事件*/
-		$('#testResult').datagrid({
-				//单击事件   
-				onClickRow : function(rowIndex, rowData) {
-					$('#testResult2').datagrid('loadData', {
-						"rows" : [ {
-							"col011" : rowData.col011,
-							"col012" : rowData.col012,
-							"col013" : rowData.col013,
-							"col014" : rowData.col014,
-							"col015" : rowData.col015,
-							"col016" : rowData.col016,
-							"col017" : rowData.col017,
-							"col018" : rowData.col018,
-							"col019" : rowData.col019
-						}, {
-							"col011" : rowData.col020,
-							"col012" : rowData.col021,
-							"col013" : rowData.col022,
-							"col014" : rowData.col023,
-							"col015" : rowData.col024,
-							"col016" : rowData.col025,
-							"col017" : rowData.col026,
-							"col018" : rowData.col027,
-							"col019" : rowData.col028
-						}, {
-							"col011" : rowData.col029,
-							"col012" : rowData.col030,
-							"col013" : rowData.col031,
-							"col014" : rowData.col032,
-							"col015" : rowData.col033,
-							"col016" : rowData.col034,
-							"col017" : rowData.col035,
-							"col018" : rowData.col036,
-							"col019" : rowData.col037
-						}, {
-							"col011" : rowData.col038,
-							"col012" : rowData.col039,
-							"col013" : rowData.col040,
-							"col014" : rowData.col041,
-							"col015" : rowData.col042,
-							"col016" : rowData.col043,
-							"col017" : rowData.col044,
-							"col018" : rowData.col045,
-							"col019" : rowData.col046
-						} ]
-					}
-					);
-				}
-			});
 		
 		/*折线图显示结果*/
 		$('#testResult').datagrid({   
@@ -182,25 +117,32 @@
 				console.log(data);
 				var testingValue = $('#testingValue').combobox('getValue');
 				var testingText = $('#testingValue').combobox('getText');
-				var wheelCodeTxt=$('#wheelCode').textbox('getValue');
+				var wheelCodeTxt=$('#wheelCode1').textbox('getValue');
 				var startDateTxt = $('#startDate').datebox('getValue');
 				var endDateTxt = $('#endDate').datebox('getValue');
 				var repairingTxt = $('#repairing').combobox('getValue');
-				//var vardata = eval('(' + data.rows + ')');
 				var json = data.rows;
+				//alert(json[0].channelName+json[0].detectionRecord.detectionTime);
 				var a1yxz = [];
 				var a2yxz = [];
 				var b1yxz = [];
 				var b2yxz = [];
 				for (var i = 0, l = json.length; i < l; i++) {
-					var tm=json[i]['col010'];  
+					var tm=json[i].detectionRecord.detectionTime;  
 					var someDate = new Date(Date.parse(formatDateBoxFull(tm)))  ;  
 					var tms=Date.UTC(someDate.getFullYear(), someDate.getMonth(), someDate.getDate(), someDate.getHours(),someDate.getMinutes());  
-					//var tms=formatDateBoxFull(tm);
-					a1yxz.push([tms,parseFloat(json[i]['col0'+testingValue])]);
-					a2yxz.push([tms,parseFloat(json[i]['col0'+(parseInt(testingValue)+9)])]);
-					b1yxz.push([tms,parseFloat(json[i]['col0'+(parseInt(testingValue)+18)])]);
-					b2yxz.push([tms,parseFloat(json[i]['col0'+(parseInt(testingValue)+27)])]);
+					if(json[i].channelName=='IN0:A1'){
+						a1yxz.push([tms,parseFloat(json[i].validValue)]);
+					}
+					if(json[i].channelName=='IN0:A2'){
+						a2yxz.push([tms,parseFloat(json[i].validValue)]);
+					}
+					if(json[i].channelName=='IN0:B1'){
+						b1yxz.push([tms,parseFloat(json[i].validValue)]);
+					}
+					if(json[i].channelName=='IN0:B1'){
+						b2yxz.push([tms,parseFloat(json[i].validValue)]);
+					}
 				}
 
 				Highcharts.chart('container', {
@@ -343,6 +285,10 @@
 		function openPDFFile(value, row, index)
 		 {
 		   return "<a href='pdf/2018/04/29/" + value + "' target='_blank'>"+value+"</a>";
+		 }
+		function openPDFFile1(value, row, index)
+		 {
+		   return value.bBearingNum;
 		 }
 		//BGM文件下载
 		function downloadBGMFile(value, row, index)

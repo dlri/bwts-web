@@ -34,9 +34,12 @@ public class ProtocolController {
 		return "/index";
 	}
 	
+	/*
+	 * 创建检测数据表，表名为：detection_data
+	 */
 	@RequestMapping("/createDynamicTable")
 	public String createDynamicTable(HttpServletRequest request){
-		protocolService.createDynamicTable("dyn_RUN001");
+		protocolService.createDynamicTable("detection_data");
 		return "/index";
 	}
 	
