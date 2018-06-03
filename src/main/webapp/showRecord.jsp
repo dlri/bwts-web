@@ -20,9 +20,9 @@
 <script src="js/export-data.js"></script>
 <script type="text/javascript" src="jquery-easyui-1.5.4.5/plugins/jquery.media.js"></script>
 <body>
-	<div style="width: 100%; padding: 20px;">
-			<div style="margin-bottom: 20px">
-			<!-- <input type="hidden" name="bedName" id="bedName" value="${testBedNum}"> -->
+	<div style="width: 100%; height: 30px;padding: 5px;">
+			<div style="margin-bottom: 0px">
+			<input type="hidden" name="bedName" id="bedName" value="${testBedNum}"> 
 				开始时间：
 			    <input id="startDate" class="easyui-datetimebox" value="" style="width: 150px;">
 			          结束时间：
@@ -51,20 +51,20 @@
 			</div>
 	</div>
 	
-	<div style="width: 100%; height: 250px; float: left;">
-		<table id="testResult" class="easyui-datagrid" title="检测结果" style="width: 100%; height: 250px;"
+	<div style="width: 100%; height: 320px;">
+		<table id="testResult" class="easyui-datagrid" style="width: 100%; height: 320px;"
 			data-options="rownumbers:true,singleSelect:true,collapsible:true,pagination:true">
 			<thead>
 				<tr>
 					<th data-options="field:'id',width:40,align:'center'">序号</th>
-					<th data-options="field:'tBedNum',width:80,align:'center'">试验台编号</th>
-					<th data-options="field:'wheelId',width:80,align:'center'">轮对编号</th>
-					<th data-options="field:'channelName',width:40,align:'center'">修程</th>
-					<th data-options="field:'aBearingNum',width:60,align:'center'">A侧轴承编号</th>
-					<th data-options="field:'bBearingNum',width:60,align:'center'">B侧轴承编号</th>
-					<th data-options="field:'detectionTime',formatter:formatDateBoxFull,width:120,align:'center'">检测时间</th>
-					<th data-options="field:'pdfFile',width:200,align:'center',formatter: openPDFFile">PDF文件</th>
-					<th data-options="field:'bgmFile',width:100,align:'center',formatter: downloadBGMFile">PDF文件</th>
+					<th data-options="field:'tBedNum',width:70,align:'center'">试验台编号</th>
+					<th data-options="field:'wheelId',width:70,align:'center'">轮对编号</th>
+					<th data-options="field:'repairRank',width:40,align:'center'">修程</th>
+					<th data-options="field:'aBearingNum',width:75,align:'center'">A侧轴承编号</th>
+					<th data-options="field:'bBearingNum',width:75,align:'center'">B侧轴承编号</th>
+					<th data-options="field:'detectionTime',formatter:formatDateBoxFull,width:130,align:'center'">检测时间</th>
+					<th data-options="field:'pdfFile',width:60,align:'center',formatter: openPDFFile">PDF文件</th>
+					<th data-options="field:'bgmFile',width:60,align:'center',formatter: downloadBGMFile">PDF文件</th>
 					<th data-options="field:'al',width:60,align:'center',formatter:formatterA1"> IN0:A1 </th>
 					<th data-options="field:'a2',width:60,align:'center',formatter:formatterA2"> IN0:A2 </th>
 					<th data-options="field:'bl',width:60,align:'center',formatter:formatterB1"> IN0:B1 </th>
@@ -73,18 +73,18 @@
 			</thead>
 		</table>
 	</div>
-	<div id="container" style="width: 100%; height: 350px;"></div>
-<a id="med" class="media">H63-2304_三级_20180303094450.pdf</a>
+	<div id="container" style="width: 100%; height: 300px;"></div>
 
 	<script type="text/javascript">
 		/* 查询数据条件 */
 		function checkInputQuery(){
-			//var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
+			var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
 			var wheelCode=$('#wheelCode1').textbox('getValue');
 			var startDate = $('#startDate').datebox('getValue');
 			var endDate = $('#endDate').datebox('getValue');
 			var repairing = $('#repairing').combobox('getValue');
-		//	var channelName=$('#testingValue').textbox()
+			//var channelName=$('#testingValue').combobox('getValue');
+			//alert(channelName);
 			//分页实现
 			var pager = $('#testResult').datagrid().datagrid('getPager'); // get the pager of datagrid
 			var options=pager.data("pagination").options;
@@ -101,7 +101,7 @@
 					endDate:endDate,
 					wheelCode:wheelCode,
 					repairing:repairing,
-					//tBedName:tBedName
+					tBedName:tBedName
 				});
 	             
 	    }
@@ -131,34 +131,33 @@
 					var tms=Date.UTC(someDate.getFullYear(), someDate.getMonth(), someDate.getDate(), someDate.getHours(),someDate.getMinutes()); 
 					for(var j=0;j<json[i].detailsList.length;j++){
 						if(json[i].detailsList[j].channelName=='IN0:A1'){
-							a1yxz.push([tms,parseFloat(json[i].detailsList[j].validValue)]);
+							a1yxz.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
 						}
 						if(json[i].detailsList[j].channelName=='IN0:A2'){
-							a2yxz.push([tms,parseFloat(json[i].detailsList[j].validValue)]);
+							a2yxz.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
 						}
-						if(json[i].detailsList[j].channelName=='IN0:B1'){
-							b1yxz.push([tms,parseFloat(json[i].detailsList[j].validValue)]);
+						if(json[i].detailsList[j].channelName=='IN1:B1'){
+							b1yxz.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
 						}
-						if(json[i].detailsList[j].channelName=='IN0:B1'){
-							b2yxz.push([tms,parseFloat(json[i].detailsList[j].validValue)]);
+						if(json[i].detailsList[j].channelName=='IN1:B2'){
+							b2yxz.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
 						}
 					}
 					
 				}
-
-				Highcharts.chart('container', {
+				var chart=null;
+				$('#container').highcharts({
+					credits: {  enabled: false},//去掉highcharts.com商标
 					chart : {
 						type : 'spline'//曲线图
 					},
-
 					title : {
-						text : '轮对'+wheelCodeTxt+repairingTxt+'修程'+testingText+'曲线分析'
+						text : repairingTxt+'修程 '+testingText+' 曲线分析',
+						style:{
+							fontSize : '12px',
+							color:'#4572A7'
+		        		}
 					},
-
-					subtitle : {
-						text : startDateTxt+'~'+endDateTxt
-					},
-
 					yAxis : {
 						gridLineWidth:1,
 			        	minorGridLineWidth:1,
@@ -170,9 +169,6 @@
 			        			color:'#4572A7'
 			        		},
 			        	},	
-			    
-			        	 //min: min,  //最小
-						//max:max,//最大 
 						title : {
 							text : '检测值:'+testingText,
 							style:{
@@ -200,11 +196,6 @@
 			                },
 			                rotation:30,//倾斜30度，防止数量过多显示不全
 			            },
-			            //maxPadding : 0.05,  
-						//minPadding : 0.05,  
-						//tickInterval : 3600 * 1000 * 1,//两天画一个x刻度  
-						                 //或者150px画一个x刻度，如果跟上面那个一起设置了，则以最大的间隔为准  
-						//tickPixelInterval : 150, 
 			            tickWidth:5,//刻度的宽度  
 			            lineColor : '#990000',//自定义刻度颜色  
 						lineWidth :3,//自定义x轴宽度  
@@ -271,33 +262,47 @@
 						} ]
 					}
 
+				},function(c){
+					chart=c; //回调函数，传递图表对象	
+					
+					var title = {
+						text : '轮对编号为'+wheelCodeTxt+'的'+repairingTxt+'修程'+testingText+'曲线分析',
+						style:{
+							fontSize : '12px',
+							color:'#4572A7'
+		        		}
+					}
+					var endTime=formatDateBoxFull(new Date());
+					var subtitle ={
+						text : startDateTxt+'~'+endDateTxt
+					};
+					var subtitle1 ={
+							text : startDateTxt+'~'+endTime
+						};
+					if(wheelCodeTxt!=""){
+						chart.setTitle(title);
+					}
+					if(startDateTxt!=""){
+						if(endDateTxt==""){
+							//alert()+"ddddd"+chart.title.textStr);
+							chart.setTitle(null,subtitle1);
+						}else{
+							chart.setTitle(null,subtitle);
+						}
+					}
 				});
-				//===
-
-
 				
+				//===
 			    }   
 			 });
-		function pdfOpen(data){
-			med.href="pdf/2018/04/29/H63-2304_三级_20180303094041.pdf";
-	        $('a.media').media({width:800, height:600});
-		}
-		//PDF文件打开
-		function openPDFFile(value, row, index)
-		 {
-		   return "<a href='pdf/2018/04/29/" + value + "' target='_blank'>"+value+"</a>";
-		 }
-		function openPDFFile1(value, row, index)
-		 {
-		   //return value.bBearingNum;
-		 }
+		
 		function formatterA1(value, row, index)
 		 {
 			
 			var str="";
 			for(var d=0;d<row.detailsList.length;d++){
 				if(row.detailsList[d].channelName=='IN0:A1'){
-					str=row.detailsList[d].validValue;
+					str=shiftValue(row.detailsList[d]);
 				}
 			}
 		   return str;
@@ -308,7 +313,7 @@
 			var str="";
 			for(var d=0;d<row.detailsList.length;d++){
 				if(row.detailsList[d].channelName=='IN0:A2'){
-					str=row.detailsList[d].validValue;
+					str=shiftValue(row.detailsList[d]);
 				}
 			}
 		   return str;
@@ -318,8 +323,8 @@
 			
 			var str="";
 			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName=='IN0:B1'){
-					str=row.detailsList[d].validValue;
+				if(row.detailsList[d].channelName=='IN1:B1'){
+					str=shiftValue(row.detailsList[d]);
 				}
 			}
 		   return str;
@@ -329,17 +334,52 @@
 			
 			var str="";
 			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName=='IN0:B2'){
-					str=row.detailsList[d].validValue;
+				if(row.detailsList[d].channelName=='IN1:B2'){
+					str=shiftValue(row.detailsList[d]);
 				}
 			}
 		   return str;
+		 }
+		
+		//改变显示的检测值类别
+		function shiftValue(row){
+			var testingValue=$('#testingValue').combobox('getValue');
+			testingValue=parseInt(testingValue);
+			var str="";
+			
+			switch(testingValue){
+			case 12:
+				str=row.validValue;
+				break;
+			case 13:
+				str=row.peakValue;
+				break;
+			case 14:
+				str=row.vibrationSeverity;
+				break;
+			case 15:
+				str=row.vibrationEnergy;
+				break;
+			case 16:
+				str=row.peakNum;
+				break;
+			case 17:
+				str=row.rippleFactor;
+				break;
+			}
+			return str;
+		}
+		
+		//PDF文件打开
+		function openPDFFile(value, row, index)
+		 {
+		   return "<a href='pdf/"+row.savePath+"/"+value + "' target='_blank'>查看</a>";
 		 }
 		//BGM文件下载
 		function downloadBGMFile(value, row, index)
 		 {
 			
-		   return "<a href='${pageContext.request.contextPath}/record/download.do?fileName=" + encodeURI(value) + "&filePath="+row.col003+"' target='_blank'>"+value+"</a>";
+		   return "<a href='${pageContext.request.contextPath}/record/download.do?fileName=" + encodeURI(value) + "&filePath="+row.savePath+"' target='_blank'>下载</a>";
 		 }
 		
 	</script>

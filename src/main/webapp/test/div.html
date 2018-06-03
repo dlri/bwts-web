@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+<div id="container" style="border:1px solid #ff0000;">
+<input type="text" id="test"><button id="add">添加</button>
+</div>
+<div><p>tetse</p></div>
+<script type="text/javascript">
+var add = document.getElementById('add');
+var container =document.getElementById('container');
+var node=container.nextSibling;
+add.onclick = function(){
+oDiv = document.createElement('div');
+oDiv.innerHTML = "<div id='container1'><input type='text' id='test'><input type='button' onclick='test(this)' value='减少'/></div>";
+container.parentNode.insertBefore(oDiv, node)
+node=oDiv.nextSibling;
+
+}
+function test(test){
+test.parentNode.parentNode.removeChild(test.parentNode);
+}
+</script>	
+</body>
+</html>

@@ -33,14 +33,16 @@ public class DetectionRecordController {
 		String repairing=request.getParameter("repairing");
 		String startDate=request.getParameter("startDate");
 		String endDate=request.getParameter("endDate");
+		String tBedName = request.getParameter("tBedName");
 		map.put("wheelCode", wheelCode.equals("")?null:"%"+wheelCode+"%");
 		map.put("repairing", repairing.equals("")?null:repairing);
 		map.put("startDate", startDate.equals("")?null:startDate);
 		map.put("endDate", endDate.equals("")?null:endDate);
 		map.put("firstPage", pageBean.getFirstPage());
-        map.put("rows", pageBean.getRows());
+		map.put("tBedName", tBedName.equals("") ? null : tBedName);
+        map.put("rows", pageBean.getRows()*4);
 		List<DetectionRecord> list=detectionRecordService.queryDetectionRecordByCondition(map);
-		System.out.println(list.size()+"===========");
+		System.out.println(list.size()+"=====DetectionDecord======");
 		long total=detectionRecordService.queryDetectionRecordTotal(map);
 		reMap.put("rows", list);
 		reMap.put("total", total);

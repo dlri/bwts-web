@@ -35,18 +35,13 @@ import com.dlri.chinacnr.bwts.service.DynRecordService;
 public class DynRecordController {
 	@Autowired
 	private DynRecordService dynRecordService;
-
+/*
 	@RequestMapping("/list")
 	public ModelAndView getAllList(HttpServletRequest request) {
 		List<DynRecord> list = dynRecordService.getAllList();
 		ModelAndView mav = new ModelAndView();
 		mav.addObject("list", list);
 		mav.setViewName("record/list");
-
-		// request.setAttribute("list", list);
-		// for(DynRecord pro:list){
-		// System.out.println(pro.toString());
-		// }
 		return mav;
 	}
 
@@ -55,22 +50,7 @@ public class DynRecordController {
 		List<DynRecord> list = dynRecordService.getAllList();
 		return list;
 	}
-
-	/* 没有用处了 */
-	@RequestMapping("/queryDynRecordAction")
-	public @ResponseBody List<DynRecord> queryDynRecordAction(HttpServletRequest request) {
-		Map<String, Object> map = new HashMap<String, Object>();
-		String wheelCode = request.getParameter("wheelCode");
-		String repairing = request.getParameter("repairing");
-		String startDate = request.getParameter("startDate");
-		String endDate = request.getParameter("endDate");
-		map.put("wheelCode", wheelCode.equals("") ? null : "%" + wheelCode + "%");
-		map.put("repairing", repairing.equals("") ? null : repairing);
-		map.put("startDate", startDate.equals("") ? null : startDate);
-		map.put("endDate", endDate.equals("") ? null : endDate);
-		List<DynRecord> list = dynRecordService.queryDynRecordService(map);
-		return list;
-	}
+*/
 
 	@RequestMapping("/queryDynRecordTocalAction")
 	public @ResponseBody Map<String, Object> queryDynRecordTocalAction(
@@ -104,12 +84,12 @@ public class DynRecordController {
 		String testBedNum = request.getParameter("testBedNum");
 		System.out.println("testBedNum:" + testBedNum);
 		request.setAttribute("testBedNum", testBedNum);
-		return "/show";
+		return "/showRecord";
 	}
 
 	@RequestMapping(value = { "download" }, method = { RequestMethod.GET })
 	public void download(HttpServletRequest request, HttpServletResponse response, @RequestHeader String referer) {
-		System.out.println(referer);
+		System.out.println(referer.substring(0,referer.lastIndexOf("/")+1));
 		String fileName = request.getParameter("fileName");
 		String filePath = request.getParameter("filePath");
 		try {
@@ -117,8 +97,8 @@ public class DynRecordController {
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		}
-		String url = referer + "pdf" + filePath + fileName;
-		System.out.println("======22========url:" + url);
+		String url =referer.substring(0,referer.lastIndexOf("/")+1)+"pdf/" + filePath+"/"+ fileName;
+		System.out.println("======下载的路径========url:" + url);
 		HttpURLConnection conn = null;
 		InputStream is = null;
 		OutputStream os = null;
