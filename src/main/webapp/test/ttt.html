@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<script type="text/javascript">
+var $image = $('#image');
+$image.cropper({
+  aspectRatio: 16 / 9,
+  movable: true,
+  dragMode:'move',
+  crop: function(e) {
+    // Output the result data for cropping image.
+  },
+  built: function () {
+    croppable = true;
+  }
+});
+setTimeout(function(){
+    clearCanvas(); 
+}, 1000);
+$(".rotate").click(function(){
+    var croppedCanvas;
+    if (!croppable) {
+      return;
+    }
+    croppedCanvas = $image.cropper('rotate', -90);
+    $(".cropper-canvas img").css("display","none");
+});
+$(".enlarge_pic").click(function(){
+    var croppedCanvas;
+    if (!croppable) {
+      return;
+    }
+    croppedCanvas = $image.cropper('zoom', 0.1);
+    $(".cropper-canvas img").css("display","none");
+});
+$(".shrink_pic").click(function(){
+    var croppedCanvas;
+    if (!croppable) {
+      return;
+    }
+    croppedCanvas = $image.cropper('zoom', -0.1);
+    $(".cropper-canvas img").css("display","none");
+});
+</script>
+</head>
+<body>
+
+</body>
+</html>

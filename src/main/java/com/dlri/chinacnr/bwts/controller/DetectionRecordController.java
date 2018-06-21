@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.dlri.chinacnr.bwts.entity.DetectionRecord;
 import com.dlri.chinacnr.bwts.entity.Page;
+import com.dlri.chinacnr.bwts.entity.RecordTotal;
 import com.dlri.chinacnr.bwts.service.DetectionRecordService;
 
 @Controller
@@ -26,6 +27,10 @@ public class DetectionRecordController {
 	@RequestMapping("/queryRecordAction")
 	public @ResponseBody Map<String, Object> queryDetectionRecordAction(@RequestParam(value="page", required=false) String page, 
             @RequestParam(value="rows", required=false) String rows, HttpServletRequest request){
+		System.out.println("==================="+page+"=========="+rows);
+		if(rows.equals("NaN")){
+			rows="10";
+		}
 		Page pageBean = new Page(Integer.parseInt(page), Integer.parseInt(rows));
 		Map<String, Object> reMap = new HashMap<String, Object>(); 
 		Map<String,Object>map=new HashMap<String, Object>();
@@ -40,13 +45,30 @@ public class DetectionRecordController {
 		map.put("endDate", endDate.equals("")?null:endDate);
 		map.put("firstPage", pageBean.getFirstPage());
 		map.put("tBedName", tBedName.equals("") ? null : tBedName);
-        map.put("rows", pageBean.getRows()*4);
+        RecordTotal total=detectionRecordService.queryDetectionRecordTotal(map);
+        System.out.println(total.getSumDetails()+"====getSumDetails======");
+        if(total.getTotal()!=0){
+        	if(total.getSumDetails()/total.getTotal()==4){
+            	map.put("rows", pageBean.getRows()*4);
+            }else{
+            	map.put("rows", pageBean.getRows()*8);
+            }
+        }else{
+        	map.put("rows", pageBean.getRows());
+        }
+        
+        
 		List<DetectionRecord> list=detectionRecordService.queryDetectionRecordByCondition(map);
 		System.out.println(list.size()+"=====DetectionDecord======");
-		long total=detectionRecordService.queryDetectionRecordTotal(map);
+		
 		reMap.put("rows", list);
-		reMap.put("total", total);
+		reMap.put("total", total.getTotal());
 		//System.out.println(lis+"==============");
 		return reMap;
+	}
+	
+	@RequestMapping("/queryLastTimeRecordAction")
+	public @ResponseBody List<DetectionRecord> queryRecordByLastTimeAction( HttpServletRequest request){
+		return detectionRecordService.queryRecordByLastTime();
 	}
 }
