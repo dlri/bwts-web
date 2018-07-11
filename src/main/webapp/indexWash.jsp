@@ -2,6 +2,12 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>检修轴承数据采集分析系统</title>
 
@@ -143,13 +149,20 @@
 				console.log(json.length + "=+" + json[1] + "==" + json + "=="+ json[0]);
 				for (var isShow = 0; isShow < json.length - 1; isShow++) {
 					var str = json[isShow].split(":");
-					// var attr=isShow.toString().length<2?"0"+isShow:isShow;
-					if (str[1] == "1") {
-						//$("#" + str[0]).show();
-						console.log("#" + str[0] + "==" + isShow);
-					} else {
-						//$("#" + str[0]).style.display = "none";
-						// console.log("0#RUN0"+attr);
+					if(str[0].indexOf("WASH")!=-1){
+						if (str[1] == "1") {
+							$("#" + str[0]+"DataDiv").css({
+								color:"#ffbf00"
+							});
+							//$("#" + str[0]).show();
+							//console.log("#" + str[0] + "=99999=" + isShow);
+						} else {
+							//$("#" + str[0]).hide();
+							$("#" + str[0]+"DataDiv").css({
+								color:"#aaa"
+							});
+							$("#" + str[0]+"Img").attr("src","img/off.png");
+						}
 					}
 				}
 			} else {
@@ -245,10 +258,14 @@
 			//检测数据条数
 			var dataLength=json[2];
 			//检测时间
-			var testTime = json[7].substr(0, 4) + "-"
-					+ json[7].substr(4, 2) + "-" + json[7].substr(6, 2)
-					+ " " + json[7].substr(8, 2) + ":"
-					+ json[7].substr(10, 2) + ":" + json[7].substr(12, 2);
+			var testTime;
+			if(json[7].indexOf("-")>0){
+				testTime=json[7];
+			}else{
+				testTime= json[7].substr(0, 4) + "-" + json[7].substr(4, 2)
+				+ "-" + json[7].substr(6, 2) + " " + json[7].substr(8, 2)
+				+ ":" + json[7].substr(10, 2) + ":" + json[7].substr(12, 2);
+			}
 			//轮对编号
 			var wheelNum = json[3];
 			//修程级别
@@ -271,24 +288,27 @@
 			$("#" + detectionCode).html("");
 			//第一行
 			var div1 = $(
-					'<div><div style="width:200px;padding-left:270px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
-							+ detectionCode
-							+ '\')\" >'
-							+ detectionCode
-							+ '</a></div> <div style="padding-top:24px;padding-left:275px;width:165px;">'
-							+ testTime + '</div><div style="padding-top:4px;padding-left:260px;width:200px;">'
-							+ repair + '</div><div style="padding-top:4px;padding-left:275px;width:200px;">'
-							+ wheelNum + '</div><div style="padding-top:21px;padding-left:270px;width:200px;">'
-							+ json[9 + 3 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9]+ '</div><div style="padding-top:3px;padding-left:270px;width:200px;">'
-							+ json[9 + 2 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + '</div><div style="padding-top:3px;padding-left:270px;width:200px;">'
-							+ json[9 + 1 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + '</div><div style="padding-top:3px;padding-left:270px;width:200px;">'
-							+ json[9 + 0 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + '</div></div>').css({
-				width : "380px",
+					'<div><div style="padding-left:5px;padding-top:150px;width:55px;height:100px;float:left;"><img id="'+detectionCode+'Img"  width="55" height="60" src="img/on.png" /></div><div style="width:205px;height:150px;float:right;">'+
+					'<div style="width:200px;padding-left:0px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
+					+ detectionCode
+					+ '\')\" >'
+					+ detectionCode
+					+ '</a></div> <div style="padding-top:24px;padding-left:5px;width:165px;">'
+					+ testTime + '</div><div style="padding-top:4px;padding-left:0px;width:200px;">'
+					+ repair + '</div><div style="padding-top:4px;padding-left:5px;width:200px;">'
+					+ wheelNum + '</div><div style="padding-top:21px;padding-left:5px;width:200px;">'
+					+ json[9 + 3 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9]+ '</div><div style="padding-top:3px;padding-left:5px;width:200px;">'
+					+ json[9 + 2 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + '</div><div style="padding-top:3px;padding-left:5px;width:200px;">'
+					+ json[9 + 1 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + '</div><div style="padding-top:3px;padding-left:5px;width:200px;">'
+					+ json[9 + 0 * 9] +'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;'+ json[9 + 3 * 9] + 		
+'</div></div>').css({
+				width : "470px",
 				height : "30px",
 				cursor : "pointer",
 				padding : "20px 0px 0px 0px",
 				color : "#fff"
 			});
+			div1.attr('id',detectionCode+'DataDiv');//给子div设置id
 			$("#" + detectionCode).append(div1);
 			
 			//V方向的检测值初始化

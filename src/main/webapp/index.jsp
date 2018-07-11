@@ -2,6 +2,12 @@
 	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <head>
+<%
+    String path = request.getContextPath();
+    String basePath = request.getScheme() + "://"
+            + request.getServerName() + ":" + request.getServerPort()
+            + path + "/";
+%>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>检修轴承数据采集分析系统</title>
 <style type="text/css">
@@ -20,6 +26,7 @@
 
 <body>
 	<%@include file="head.html"%>
+	
 	<div id="canvas" />
 	<!-- 弹出框 -->
 	<div id="wc" class="easyui-window" title="详情"
@@ -46,7 +53,7 @@
 			//添加20台跑合台设备，默认不显示
 			$(new Array(20)).each(
 					function(i) {
-						var parentdiv = $("<div><br/><br/><br/>无检测数据</div>")
+						var parentdiv = $("<div><br/><br/><br/></div>")
 								.css({
 									width : "380px",
 									height : "242px",
@@ -56,7 +63,7 @@
 									//backgroundImage : "url(img/unit_run_bhg.png)",
 									color : "#fff",
 									float : "left",
-								//display : "none"
+								    //display : "block"
 								}); //创建一个父div
 						var attr = (i + 1).toString().length < 2 ? "0"
 								+ (i + 1) : (i + 1);
@@ -160,21 +167,27 @@
 			///*
 			//alert(event.data.length);
 			var json = event.data.replace(/'/g, "").split(",");
-			console.log(json);
+			//console.log(json);
 			//设备在线状态监测
 			if (json.length < 42) {
-				console.log(json.length + "=+" + json[1] + "==" + json + "=="
-						+ json[0]);
+				//console.log(json.length + "=+" + json[1] + "==" + json + "=="+ json[0]);
 				for (var isShow = 0; isShow < json.length - 1; isShow++) {
 					var str = json[isShow].split(":");
-					// var attr=isShow.toString().length<2?"0"+isShow:isShow;
-					if (str[1] == "1") {
-						//$("#" + str[0]).show();
-						console.log("#" + str[0] + "==" + isShow);
-					} else {
-						//$("#" + str[0]).style.display = "none";
-						// console.log("0#RUN0"+attr);
+					if(str[0].indexOf("RUN")!=-1){
+						
+						if (str[1] == "1") {
+							$("#" + str[0]+"DataDiv").css({
+								color:"#ffbf00"
+							});
+							//console.log("#" + str[0] + "88888==" + isShow);
+						} else {
+							$("#" + str[0]+"DataDiv").css({
+								color:"#aaa"
+							});
+							$("#" + str[0]+"Img").attr("src","img/off.png");
+						}
 					}
+					
 				}
 			} else {
 				showData(json);
@@ -265,9 +278,14 @@
 			//检测数据条数
 			var dataLength = json[2];
 			//检测时间
-			var testTime = json[7].substr(0, 4) + "-" + json[7].substr(4, 2)
-					+ "-" + json[7].substr(6, 2) + " " + json[7].substr(8, 2)
-					+ ":" + json[7].substr(10, 2) + ":" + json[7].substr(12, 2);
+			var testTime;
+			if(json[7].indexOf("-")>0){
+				testTime=json[7];
+			}else{
+				testTime= json[7].substr(0, 4) + "-" + json[7].substr(4, 2)
+				+ "-" + json[7].substr(6, 2) + " " + json[7].substr(8, 2)
+				+ ":" + json[7].substr(10, 2) + ":" + json[7].substr(12, 2);
+			}
 			//轮对编号
 			var wheelNum = json[3];
 			//修程级别
@@ -294,30 +312,33 @@
 			$("#" + detectionCode).html("");
 			//第一行
 			var div1 = $(
-					'<div><div style="width:140px;padding-left:240px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
-							+ detectionCode
-							+ '\')\" >'
-							+ detectionCode
-							+ '</a></div> <div style="padding-top:24px;padding-left:215px;width:165px;">'
-							+ testTime
-							+ '</div><div style="padding-top:4px;padding-left:225px;width:155px;">'
-							+ repair
-							+ '</div><div style="padding-top:4px;padding-left:255px;width:125px;">'
-							+ wheelNum
-							+ '</div><div style="padding-top:22px;padding-left:225px;width:155px;">'
-							+ json[9 + 3 * 9]
-							+ '</div><div style="padding-top:4px;padding-left:225px;width:155px;">'
-							+ json[9 + 2 * 9]
-							+ '</div><div style="padding-top:4px;padding-left:225px;width:155px;">'
-							+ json[9 + 1 * 9]
-							+ '</div><div style="padding-top:4px;padding-left:225px;width:155px;">'
-							+ json[9 + 0 * 9] + '</div></div>').css({
+					'<div><div style="padding-top:145px;width:55px;height:100px;float:left;"><img id="'+detectionCode+'Img"  width="55" height="60" src="img/on.png" /></div><div style="width:165px;height:150px;float:right;">'+
+					'<div style="width:140px;padding-left:30px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
+					+ detectionCode
+					+ '\')\" >'
+					+ detectionCode
+					+ '</a></div> <div style="padding-top:24px;padding-left:0px;width:165px;">'
+					+ testTime
+					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
+					+ repair
+					+ '</div><div style="padding-top:4px;padding-left:45px;width:125px;">'
+					+ wheelNum
+					+ '</div><div style="padding-top:22px;padding-left:15px;width:155px;">'
+					+ json[9 + 3 * 9]
+					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
+					+ json[9 + 2 * 9]
+					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
+					+ json[9 + 1 * 9]
+					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
+					+ json[9 + 0 * 9] +
+					'</div></div>').css({
 				width : "380px",
 				height : "30px",
 				cursor : "pointer",
 				padding : "13px 0px 0px 0px",
 				color : "#fff"
 			});
+			 div1.attr('id',detectionCode+'DataDiv');//给子div设置id
 			$("#" + detectionCode).append(div1);
 
 			//V方向的检测值初始化
