@@ -154,12 +154,20 @@
 							$("#" + str[0]+"DataDiv").css({
 								color:"#ffbf00"
 							});
-							//$("#" + str[0]).show();
+							if($("#" + str[0]+"Img").length ==0) {
+								console.log($("#" + str[0]+"Img").length);
+								$("#" + str[0]).css({
+									backgroundImage : "url(img/onLineW.png)"
+								});
+							}
 							//console.log("#" + str[0] + "=99999=" + isShow);
 						} else {
 							//$("#" + str[0]).hide();
 							$("#" + str[0]+"DataDiv").css({
 								color:"#aaa"
+							});
+							$("#" + str[0]).css({
+								backgroundImage : "none"
 							});
 							$("#" + str[0]+"Img").attr("src","img/off.png");
 						}

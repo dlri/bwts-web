@@ -16,7 +16,7 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestHeader;
@@ -78,13 +78,28 @@ public class DynRecordController {
 		reMap.put("total", total);
 		return reMap;
 	}
-
 	@RequestMapping("/show")
 	public String show(HttpServletRequest request) {
 		String testBedNum = request.getParameter("testBedNum");
 		System.out.println("testBedNum:" + testBedNum);
 		request.setAttribute("testBedNum", testBedNum);
 		return "/showRecord";
+	}
+	
+	@RequestMapping("/showRun")
+	public String showRun(HttpServletRequest request) {
+		String testBedNum = request.getParameter("testBedNum");
+		System.out.println("testBedNum:" + testBedNum);
+		request.setAttribute("testBedNum", testBedNum);
+		return "/showRecordRun";
+	}
+	
+	@RequestMapping("/showWash")
+	public String showWash(HttpServletRequest request) {
+		String testBedNum = request.getParameter("testBedNum");
+		System.out.println("testBedNum:" + testBedNum);
+		request.setAttribute("testBedNum", testBedNum);
+		return "/showRecordWash";
 	}
 
 	@RequestMapping(value = { "download" }, method = { RequestMethod.GET })

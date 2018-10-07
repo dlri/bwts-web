@@ -179,10 +179,21 @@
 							$("#" + str[0]+"DataDiv").css({
 								color:"#ffbf00"
 							});
-							//console.log("#" + str[0] + "88888==" + isShow);
+							if($("#" + str[0]+"Img").length ==0) {
+								console.log($("#" + str[0]+"Img").length);
+								$("#" + str[0]).css({
+									backgroundImage : "url(img/onLine.png)"
+								});
+							} 
+							
+							//console.log("#" + str[0] + "=======" + isShow);
 						} else {
 							$("#" + str[0]+"DataDiv").css({
 								color:"#aaa"
+							});
+							//console.log($("#" + str[0]+"Img").length);
+							$("#" + str[0]).css({
+								backgroundImage : "none"
 							});
 							$("#" + str[0]+"Img").attr("src","img/off.png");
 						}
@@ -190,6 +201,7 @@
 					
 				}
 			} else {
+				
 				showData(json);
 			}
 			//	*/
@@ -362,6 +374,8 @@
 			//}else{
 			//}
 		}
+        
+	
 	</script>
 </body>
 </html>
