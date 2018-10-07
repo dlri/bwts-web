@@ -159,7 +159,7 @@ $('#testResult').datagrid({
         text:'保存',
         iconCls: 'icon-save',
         handler: function(){
-            console.info("rowEdit ="+ rowEdit);
+            console.log("rowEdit ="+ rowEdit);
             $('#testResult').datagrid('endEdit',rowEdit);
         }
     }],
@@ -252,6 +252,7 @@ $('#monitorRun').datagrid({
         iconCls: 'icon-remove',
         handler: function(){
         	var row = $('#monitorRun').datagrid('getSelected');
+        	console.log("row:"+row);
         	var url='<%=basePath%>quartz/'+row.jobGroup+'/'+row.jobName+'/del.do';
         	$.ajax({
         		url : url,
