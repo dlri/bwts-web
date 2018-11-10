@@ -14,8 +14,22 @@
 <title>任务调度监控</title>
 </head>
 <body >
+<%
+        Cookie[] cookies = request.getCookies();    
+        String loginCookie ="";  
+        if(cookies !=null){
+            for(int i = 0;i < cookies.length;i++){ 
+                if(cookies[i].getName().equals("login_user_id")){
+                	loginCookie=cookies[i].getValue();
+                }
+            }
+        }
+        if("".equals(loginCookie)){
+        	  response.sendRedirect("login.jsp"); 
+        }else{
+%> 
 <%@include file="head.html"%>
-<div style="width:100%;height:100%;float:left;padding-top:10px;">
+<div style="width:100%;height:100%;float:left;padding-top:10px;font-size:10px;">
 
 
 <div style="width:58%;padding-left:1%;padding-right:1%;height:85%;float:left;">
@@ -56,14 +70,17 @@
 				<tr>
 					<th data-options="field:'jobName',width:fixWidth(0.7),align:'center'">任务名称</th>
 					<th data-options="field:'jobGroup',width:fixWidth(0.7),align:'center'">任务分组</th>
+					<th data-options="field:'jobDesc',width:fixWidth(0.6),align:'center'">是否在线</th>
 					<th data-options="field:'jobStatus',width:fixWidth(0.7),align:'center'">任务状态</th>
 					<th data-options="field:'cronExpression',width:fixWidth(1.2),align:'center'">时间表达式</th>
-					<th data-options="field:'jobDesc',width:fixWidth(0.6),align:'center'">是否在线</th>
+					
 				</tr>
 			</thead>
 		</table>
 	</div>
 	</div>
+	<div id="wc" class="easyui-window" title="详情"
+		data-options="closed:true,iconCls:'icon-save',border:'thin',cls:'c2',left:'20px',top:'74px'" />
 	<style type="text/css">
 	html, body {height:100%;}
 	body {background:#fff;}
@@ -159,7 +176,7 @@ $('#testResult').datagrid({
         text:'保存',
         iconCls: 'icon-save',
         handler: function(){
-            console.log("rowEdit ="+ rowEdit);
+            console.info("rowEdit ="+ rowEdit);
             $('#testResult').datagrid('endEdit',rowEdit);
         }
     }],
@@ -252,7 +269,6 @@ $('#monitorRun').datagrid({
         iconCls: 'icon-remove',
         handler: function(){
         	var row = $('#monitorRun').datagrid('getSelected');
-        	console.log("row:"+row);
         	var url='<%=basePath%>quartz/'+row.jobGroup+'/'+row.jobName+'/del.do';
         	$.ajax({
         		url : url,
@@ -290,5 +306,6 @@ $('#monitorRun').datagrid({
     
 });
 </script>
+<%} %>
 </body>
 </html>

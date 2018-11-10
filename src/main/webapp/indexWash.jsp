@@ -26,6 +26,20 @@
 </head>
 
 <body>
+<%
+        Cookie[] cookies = request.getCookies();    
+        String loginCookie ="";  
+        if(cookies !=null){
+            for(int i = 0;i < cookies.length;i++){ 
+                if(cookies[i].getName().equals("login_user_id")){
+                	loginCookie=cookies[i].getValue();
+                }
+            }
+        }
+        if("".equals(loginCookie)){
+        	  response.sendRedirect("login.jsp"); 
+        }else{
+%> 
 	<%@include file="head.html" %>
 	<div id="canvas" />
 	<!-- 弹出框 -->
@@ -143,10 +157,10 @@
 			 ///*
 			//alert(event.data.length);
 			var json = event.data.replace(/'/g, "").split(",");
-			console.log(json);
+			//console.log(json);
 			//设备在线状态监测
 			if (json.length < 42) {
-				console.log(json.length + "=+" + json[1] + "==" + json + "=="+ json[0]);
+				//console.log(json.length + "=+" + json[1] + "==" + json + "=="+ json[0]);
 				for (var isShow = 0; isShow < json.length - 1; isShow++) {
 					var str = json[isShow].split(":");
 					if(str[0].indexOf("WASH")!=-1){
@@ -154,20 +168,13 @@
 							$("#" + str[0]+"DataDiv").css({
 								color:"#ffbf00"
 							});
-							if($("#" + str[0]+"Img").length ==0) {
-								console.log($("#" + str[0]+"Img").length);
-								$("#" + str[0]).css({
-									backgroundImage : "url(img/onLineW.png)"
-								});
-							}
+							$("#" + str[0]+"Img").attr("src","img/on.png");
+							//$("#" + str[0]).show();
 							//console.log("#" + str[0] + "=99999=" + isShow);
 						} else {
 							//$("#" + str[0]).hide();
 							$("#" + str[0]+"DataDiv").css({
 								color:"#aaa"
-							});
-							$("#" + str[0]).css({
-								backgroundImage : "none"
 							});
 							$("#" + str[0]+"Img").attr("src","img/off.png");
 						}
@@ -297,7 +304,7 @@
 			//第一行
 			var div1 = $(
 					'<div><div style="padding-left:5px;padding-top:150px;width:55px;height:100px;float:left;"><img id="'+detectionCode+'Img"  width="55" height="60" src="img/on.png" /></div><div style="width:205px;height:150px;float:right;">'+
-					'<div style="width:200px;padding-left:0px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
+					'<div style="width:200px;padding-left:0px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogueWash(\''
 					+ detectionCode
 					+ '\')\" >'
 					+ detectionCode
@@ -337,6 +344,17 @@
 			//}else{
 			//}
 		}
+		
+		function windowsOpenDialogueWash(data) {
+			$('#wc').window({
+				title : data,
+				href : 'record/showWash.do?testBedNum=' + data,
+				width : $(window).width() - 40,
+				height : $(window).height() - 86
+			});
+			$('#wc').window('open');
+		}
 	</script>
+<%} %>
 </body>
 </html>

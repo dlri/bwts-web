@@ -37,40 +37,31 @@
         	  response.sendRedirect("login.jsp"); 
         }else{
 %> 
-	<div style="width:98%;padding-left:1%;height:70px;padding-top:5px;">
-	                    车间： 
-				<select id="workShop"  class="easyui-combobox" name="workShop"
-					style="width: 65px;">
+	<div style="width:98%;padding-left:1%;height:30px;padding-top:5px;">
+	<input id="bedName"  name="bedName" value="${testBedNum}" style="display:none">
+			<!-- 台位编号： 
+				<select id="bedName"  class="easyui-combobox" name="bedName" disabled="disabled"
+					style="display:none">
 					<option value="${testBedNum}" selected="selected">${testBedNum}</option>
-					<option value="B01">B01</option>
-					<option value="B02">B02</option>
-					<option value="B03" >B03</option>
-					<option value="B04">B04</option>
+					<option value="RUN002">RUN002</option>
+					<option value="RUN003">RUN003</option>
+					<option value="RUN004" >RUN004</option>
+					<option value="RUN005">RUN005</option>
+					<option value="RUN015">RUN015</option>
+					<option value="RUN016">RUN016</option>
+					<option value="RUN017">RUN017</option>
+					<option value="RUN018">RUN018</option>
+					<option value="RUN019">RUN019</option>
+					<option value="RUN020">RUN020</option>
+					<option value="WASH001">WASH001</option>
+					<option value="WASH002">WASH002</option>
+					<option value="WASH003">WASH003</option>
+					<option value="WASH004">WASH004</option>
 				</select> 
-			机位： 
-				<select id="placement"  class="easyui-combobox" name="placement"
-					style="width: 65px;">
-					<option value="${testBedNum}" selected="selected">${testBedNum}</option>
-					<option value="R01">R01</option>
-					<option value="R02">R02</option>
-					<option value="R03">R03</option>
-					<option value="R04">R04</option>
-					<option value="R05">R05</option>
-					<option value="R06">R06</option>
-					<option value="R07">R07</option>
-					<option value="R08">R08</option>
-					<option value="R09">R09</option>
-					<option value="R10">R10</option>
-				</select> 
-				  设备： 
-				<select id="equipment"  class="easyui-combobox" name="equipment"
-					style="width: 100px;">
-					<option value="${testBedNum}" selected="selected">${testBedNum}</option>
-					<option value="齿轮箱跑合台">齿轮箱跑合台</option>
-					<option value="齿轮箱清洗机">齿轮箱清洗机</option>
-				</select> 
+				-->
+				
 			    <input id="startDate" class="easyui-datetimebox" value="" style="width: 145px;">
-			          ~
+			         ~
 			    <input id="endDate" class="easyui-datetimebox" value="" style="width: 145px;">
 				修程： 
 				<select id="repairing" class="easyui-combobox" name="repairing" style="width: 55px;">
@@ -79,21 +70,17 @@
 					<option value="四级">四级</option>
 					<option value="五级">五级</option>
 				</select> 
-				
 				轮对编号： 
 				<input id="wheelCode1" class="easyui-textbox" style="width: 80px;">
 				齿轮箱编号： 
 				<input id="gearboxNum1" class="easyui-textbox" style="width: 80px;">
-				<p>
-				齿轮箱轴承型号（G）： 
-				<input id="gearboxNog1" class="easyui-textbox" style="width: 120px;">
-				齿轮箱轴承型号（P）： 
-				<input id="gearboxNop1" class="easyui-textbox" style="width: 120px;">
-				轴箱轴承型号： 
-				<input id="bearingNo1" class="easyui-textbox" style="width: 120px;">
+				轴承型号（G）： 
+				<input id="gearboxNog1" class="easyui-textbox" style="width: 80px;">
+				轴承型号（P）： 
+				<input id="gearboxNop1" class="easyui-textbox" style="width: 80px;">
 				检测值： 
 				<select id="testingValue" class="easyui-combobox" name="testingValue"
-					style="width: 100px;">
+					style="width: 80px;">
 					<option value="12" selected="selected">有效值</option>
 					<option value="13">峰值</option>
 					<option value="14" >振动烈度</option>
@@ -111,15 +98,12 @@
 					<th data-options="field:'workShop',width:fixWidth(0.5),align:'center'">车间</th>
 					<th data-options="field:'placement',width:fixWidth(0.5),align:'center'">机位</th>
 					<th data-options="field:'equipment',width:fixWidth(0.7),align:'center'">设备</th>
-                    <th data-options="field:'repairRank',width:fixWidth(0.5),align:'center'">修程</th>
-					<th data-options="field:'detectionTime',formatter:formatDateBoxFull,width:fixWidth(1),align:'center'">检测时间</th>
-					<th data-options="field:'wheelId',width:fixWidth(0.7),align:'center'">轮对编号</th>
+					<th data-options="field:'wheelId',width:fixWidth(0.6),align:'center'">轮对编号</th>
 					<th data-options="field:'gearboxNum',width:fixWidth(0.6),align:'center'">齿轮箱编号</th>
+					<th data-options="field:'repairRank',width:fixWidth(0.5),align:'center'">修程</th>
 					<th data-options="field:'gearboxNog',width:fixWidth(0.6),align:'center'">轴承型号（G）</th>
 					<th data-options="field:'gearboxNop',width:fixWidth(0.6),align:'center'">轴承型号（P）</th>
-					<th data-options="field:'bearingNo',width:fixWidth(0.6),align:'center'">轴箱轴承型号</th>
-					<th data-options="field:'aBearingNum',width:fixWidth(0.6),align:'center'">A侧轴承编号</th>
-					<th data-options="field:'bBearingNum',width:fixWidth(0.6),align:'center'">B侧轴承编号</th>
+					<th data-options="field:'detectionTime',formatter:formatDateBoxFull,width:fixWidth(1),align:'center'">检测时间</th>
 					<th data-options="field:'checker',width:fixWidth(0.5),align:'center'">检验员</th>
 					<th data-options="field:'pdfFile',width:fixWidth(0.5),align:'center',formatter: openPDFFile">PDF文件</th>
 					<th data-options="field:'bgmFile',width:fixWidth(0.5),align:'center',formatter: downloadBGMFile">PDF文件</th>
@@ -127,10 +111,6 @@
 					<th data-options="field:'gm',width:fixWidth(0.5),align:'center',formatter:formatterGM"> GM</th>
 					<th data-options="field:'pw',width:fixWidth(0.5),align:'center',formatter:formatterPW"> PW </th>
 					<th data-options="field:'pm',width:fixWidth(0.5),align:'center',formatter:formatterPM"> PM </th>
-					<th data-options="field:'al',width:fixWidth(0.5),align:'center',formatter:formatterA1"> A1 </th>
-					<th data-options="field:'a2',width:fixWidth(0.5),align:'center',formatter:formatterA2"> A2</th>
-					<th data-options="field:'bl',width:fixWidth(0.5),align:'center',formatter:formatterB1"> B1 </th>
-					<th data-options="field:'b2',width:fixWidth(0.5),align:'center',formatter:formatterB2"> B2 </th>
 				</tr>
 			</thead>
 		</table>
@@ -141,7 +121,6 @@
 	$(function(){  
 		$('#endDate').val(getDate());
 		$('#startDate').val(getBeforeDate());
-		
 		$('#startDate').datetimebox(
 				{
 					onSelect : function(date) {
@@ -170,22 +149,17 @@
 					}
 		});
 		
-		
 	});  
 		/* 查询数据条件 */
 		function checkInputQuery(){
-			//var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
-			//if(tBedName=="请选择"){
-			//	alert("请选择台位编号！");
-			//}else{
-				var workShop = $('#workShop').combobox('getValue');
-				var placement = $('#placement').combobox('getValue');
-				var equipment = $('#equipment').combobox('getValue');
+			var tBedName=$("#bedName").val();//这样就实现了jsp--js//隐藏域 
+			if(tBedName=="请选择"){
+				alert("请选择台位编号！");
+			}else{
 				var wheelCode=$('#wheelCode1').textbox('getValue');
 				var gearboxNum=$('#gearboxNum1').textbox('getValue');
 				var gearboxNog=$('#gearboxNog1').textbox('getValue');
 				var gearboxNop=$('#gearboxNop1').textbox('getValue');
-				var bearingNo=$('#bearingNo1').textbox('getValue');
 				var startDate = $('#startDate').datebox('getValue');
 				var endDate = $('#endDate').datebox('getValue');
 				var repairing = $('#repairing').combobox('getValue');
@@ -203,20 +177,16 @@
 				});
 				 $('#testResult').datagrid('options').url='detectionRecord/queryRecordAction.do';
 					$('#testResult').datagrid('load',{
-						workShop:workShop,
-						placement:placement,
-						equipment:equipment,
 						startDate:startDate,
 						endDate:endDate,
 						wheelCode:wheelCode,
 						gearboxNum:gearboxNum,
 						gearboxNog:gearboxNog,
 						gearboxNop:gearboxNop,
-						bearingNo:bearingNo,
-						repairing:repairing
-						//tBedName:tBedName
+						repairing:repairing,
+						tBedName:tBedName
 					});
-			//}       
+			}       
 	    }
 		
 		
@@ -238,10 +208,6 @@
 				var array_gm = [];
 				var array_pw = [];
 				var array_pm = [];
-				var array_a1 = [];
-				var array_a2 = [];
-				var array_b1 = [];
-				var array_b2 = [];
 				for (var i = 0; i < json.length; i++) {
 					var tm=json[i].detectionTime;  
 					var someDate = new Date(Date.parse(formatDateBoxFull(tm)))  ;  
@@ -258,18 +224,6 @@
 						}
 						if(json[i].detailsList[j].channelName=='PM'){
 							array_pm.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
-						}
-						if(json[i].detailsList[j].channelName=='A1'){
-							array_a1.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
-						}
-						if(json[i].detailsList[j].channelName=='A2'){
-							array_a2.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
-						}
-						if(json[i].detailsList[j].channelName=='B1'){
-							array_b1.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
-						}
-						if(json[i].detailsList[j].channelName=='B2'){
-							array_b2.push([tms,parseFloat(shiftValue(json[i].detailsList[j]))]);
 						}
 					}
 					
@@ -352,7 +306,6 @@
 		                borderWidth: 1,
 		                shadow: false
 		            },
-
 					plotOptions : {
 
 						series : {
@@ -375,18 +328,6 @@
 					},{
 						name : 'PM-'+testingText,
 						data : array_pm
-					},{
-						name : 'A1-'+testingText,
-						data : array_a1
-					}, {
-						name : 'A2-'+testingText,
-						data : array_a2
-					}, {
-						name : 'B1-'+testingText,
-						data : array_b1
-					}, {
-						name : 'B2-'+testingText,
-						data : array_b2
 					}
 
 					],
@@ -499,51 +440,6 @@
 			var str="";
 			for(var d=0;d<row.detailsList.length;d++){
 				if(row.detailsList[d].channelName.indexOf("PM")>-1){
-					str=shiftValue(row.detailsList[d]);
-				}
-			}
-		   return str;
-		 }
-		
-		function formatterA1(value, row, index)
-		 {
-			
-			var str="";
-			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName.indexOf("A1")>-1){
-					str=shiftValue(row.detailsList[d]);
-				}
-			}
-		   return str;
-		 }
-		function formatterA2(value, row, index)
-		 {
-			
-			var str="";
-			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName.indexOf("A2")>-1){
-					str=shiftValue(row.detailsList[d]);
-				}
-			}
-		   return str;
-		 }
-		function formatterB1(value, row, index)
-		 {
-			
-			var str="";
-			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName.indexOf("B1")>-1){
-					str=shiftValue(row.detailsList[d]);
-				}
-			}
-		   return str;
-		 }
-		function formatterB2(value, row, index)
-		 {
-			
-			var str="";
-			for(var d=0;d<row.detailsList.length;d++){
-				if(row.detailsList[d].channelName.indexOf("B2")>-1){
 					str=shiftValue(row.detailsList[d]);
 				}
 			}

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+	<%@ page import="java.net.URLDecoder" %>
 <!DOCTYPE html>
 <head>
 <%
@@ -25,6 +26,20 @@
 </head>
 
 <body>
+<%
+        Cookie[] cookies = request.getCookies();    
+        String loginCookie ="";  
+        if(cookies !=null){
+            for(int i = 0;i < cookies.length;i++){ 
+                if(cookies[i].getName().equals("login_user_id")){
+                	loginCookie=cookies[i].getValue();
+                }
+            }
+        }
+        if("".equals(loginCookie)){
+        	  response.sendRedirect("login.jsp"); 
+        }else{
+%> 
 	<%@include file="head.html"%>
 	
 	<div id="canvas" />
@@ -134,6 +149,7 @@
 									+ detail.nonQualified;
 						}
 						var jsonStr = str.replace(/'/g, "").split(",");
+						console.log(jsonStr);
 						showData(jsonStr);
 					}
 				},
@@ -179,21 +195,11 @@
 							$("#" + str[0]+"DataDiv").css({
 								color:"#ffbf00"
 							});
-							if($("#" + str[0]+"Img").length ==0) {
-								console.log($("#" + str[0]+"Img").length);
-								$("#" + str[0]).css({
-									backgroundImage : "url(img/onLine.png)"
-								});
-							} 
-							
-							//console.log("#" + str[0] + "=======" + isShow);
+							//console.log("#" + str[0] + "88888==" + isShow);
+							$("#" + str[0]+"Img").attr("src","img/on.png");
 						} else {
 							$("#" + str[0]+"DataDiv").css({
 								color:"#aaa"
-							});
-							//console.log($("#" + str[0]+"Img").length);
-							$("#" + str[0]).css({
-								backgroundImage : "none"
 							});
 							$("#" + str[0]+"Img").attr("src","img/off.png");
 						}
@@ -201,7 +207,6 @@
 					
 				}
 			} else {
-				
 				showData(json);
 			}
 			//	*/
@@ -272,15 +277,7 @@
 			}
 		}
 
-		function windowsOpenDialogue(data) {
-			$('#wc').window({
-				title : data,
-				href : 'record/show.do?testBedNum=' + data,
-				width : $(window).width() - 40,
-				height : $(window).height() - 86
-			});
-			$('#wc').window('open');
-		}
+		
         // 动态数据显示
 		function showData(json) {
 			//试验台类型
@@ -325,7 +322,7 @@
 			//第一行
 			var div1 = $(
 					'<div><div style="padding-top:145px;width:55px;height:100px;float:left;"><img id="'+detectionCode+'Img"  width="55" height="60" src="img/on.png" /></div><div style="width:165px;height:150px;float:right;">'+
-					'<div style="width:140px;padding-left:30px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogue(\''
+					'<div style="width:140px;padding-left:30px;"><a href="javascript:void(0)" onClick=\"windowsOpenDialogueRun(\''
 					+ detectionCode
 					+ '\')\" >'
 					+ detectionCode
@@ -375,7 +372,16 @@
 			//}
 		}
         
-	
+		function windowsOpenDialogueRun(data) {
+			$('#wc').window({
+				title : data,
+				href : 'record/showRun.do?testBedNum=' + data,
+				width : $(window).width() - 40,
+				height : $(window).height() - 86
+			});
+			$('#wc').window('open');
+		}
 	</script>
+	<% } %>
 </body>
 </html>
