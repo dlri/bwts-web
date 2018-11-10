@@ -73,7 +73,7 @@
 							margin : "120px 20px 12px 0px",
 							//backgroundImage : "url(img/unit_wash_hg.png)",
 							color : "#fff",
-							float : "left",
+							float : "left"
 							//display:"none"
 						}); //创建一个父div
 						var attr = (i + 1).toString().length < 2 ? "0"
