@@ -77,7 +77,7 @@
 									margin : "0px 12px 12px 0px",
 									//backgroundImage : "url(img/unit_run_bhg.png)",
 									color : "#fff",
-									float : "left",
+									float : "left"
 								    //display : "block"
 								}); //创建一个父div
 						var attr = (i + 1).toString().length < 2 ? "0"
@@ -138,12 +138,15 @@
                         //加载详细通道值
 						for (var j = 0; j < data[i].detailsList.length; j++) {
 							var detail = data[i].detailsList[j];
-							str += "','" + detail.channelName + "','"
+							str += "','" +detail.seqNum+"','"
+									+ detail.channelName + "','"
+									+ detail.bearingNo + "','"
 									+ detail.validValue + "','"
 									+ detail.peakValue + "','"
 									+ detail.vibrationSeverity;
-							str += "','" + detail.vibrationEnergy + "','"
-									+ detail.peakNum + "','"
+							str += "','"
+							        //+ detail.vibrationEnergy + "','"
+									//+ detail.peakNum + "','"
 									+ detail.rippleFactor + "','"
 									+ detail.evaluation + "','"
 									+ detail.nonQualified;
@@ -280,6 +283,7 @@
 		
         // 动态数据显示
 		function showData(json) {
+			console.log(json);
 			//试验台类型
 			var detectionType = json[0];
 			//试验台编号
@@ -333,13 +337,13 @@
 					+ '</div><div style="padding-top:4px;padding-left:45px;width:125px;">'
 					+ wheelNum
 					+ '</div><div style="padding-top:22px;padding-left:15px;width:155px;">'
-					+ json[9 + 3 * 9]
+					+ json[11 + 1 * 9]
 					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
-					+ json[9 + 2 * 9]
+					+ json[11 + 0 * 9]
 					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
-					+ json[9 + 1 * 9]
+					+ json[11 + 3 * 9]
 					+ '</div><div style="padding-top:4px;padding-left:15px;width:155px;">'
-					+ json[9 + 0 * 9] +
+					+ json[11 + 2 * 9] +
 					'</div></div>').css({
 				width : "380px",
 				height : "30px",

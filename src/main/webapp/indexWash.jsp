@@ -103,7 +103,7 @@
 				async : true,//异步方式
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
-						var str = "'wash','" + data[i].tBedNum + "','"
+						var str = "'run','" + data[i].tBedNum + "','"
 								+ data[i].channelNum + "','" + data[i].wheelId
 								+ "','" + data[i].repairRank + "','"
 								+ data[i].aBearingNum + "','"
@@ -112,17 +112,21 @@
                         //加载详细通道值
 						for (var j = 0; j < data[i].detailsList.length; j++) {
 							var detail = data[i].detailsList[j];
-							str += "','" + detail.channelName + "','"
+							str += "','" +detail.seqNum+"','"
+									+ detail.channelName + "','"
+									+ detail.bearingNo + "','"
 									+ detail.validValue + "','"
 									+ detail.peakValue + "','"
 									+ detail.vibrationSeverity;
-							str += "','" + detail.vibrationEnergy + "','"
-									+ detail.peakNum + "','"
+							str += "','"
+							        //+ detail.vibrationEnergy + "','"
+									//+ detail.peakNum + "','"
 									+ detail.rippleFactor + "','"
 									+ detail.evaluation + "','"
 									+ detail.nonQualified;
 						}
 						var jsonStr = str.replace(/'/g, "").split(",");
+						console.log(jsonStr);
 						showData(jsonStr);
 					}
 				},
