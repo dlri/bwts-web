@@ -5,6 +5,7 @@
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/WEB-INF/classes" source-path="/release_v2.0"/>
         <dependent-module archiveName="bwts-service-1.0.0-RELEASE.jar" deploy-path="/WEB-INF/lib" handle="module:/resource/bwts-service/bwts-service">
             <dependency-type>uses</dependency-type>
         </dependent-module>
