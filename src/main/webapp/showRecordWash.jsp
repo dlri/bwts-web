@@ -65,8 +65,9 @@
 			    <input id="endDate" class="easyui-datetimebox" value="" style="width: 145px;">
 				修程： 
 				<select id="repairing" class="easyui-combobox" name="repairing" style="width: 55px;">
+					<option value="全部" selected="selected">全部</option>
 					<option value="新造">新造</option>
-					<option value="三级" selected="selected">三级</option>
+					<option value="三级">三级</option>
 					<option value="四级">四级</option>
 					<option value="五级">五级</option>
 				</select> 
@@ -173,8 +174,8 @@
 				var pager = $('#testResult').datagrid().datagrid('getPager'); // get the pager of datagrid
 				var options=pager.data("pagination").options;
 				pager.pagination({
-					pageSize : 10,
-					pageList : [10,20,30,40,50,60],
+					pageSize : 20,
+					pageList : [20,40,60,80,100,200],
 					beforePageText : '第',
 					afterPageText : '共{pages}页',
 					displayMsg : '当前显示 {from} 到 {to} ,共{total}记录'

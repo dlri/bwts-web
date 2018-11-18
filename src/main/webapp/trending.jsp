@@ -53,9 +53,9 @@
 			    <input id="endDate" class="easyui-datetimebox" value="" style="width: 150px;">
 				修程： 
 				<select id="repairing" class="easyui-combobox" name="repairing" style="width: 100px;">
-					<option value="一级">一级</option>
-					<option value="二级">二级</option>
-					<option value="三级" selected="selected">三级</option>
+					<option value="全部" selected="selected">全部</option>
+					<option value="新造">新造</option>
+					<option value="三级" >三级</option>
 					<option value="四级">四级</option>
 					<option value="五级">五级</option>
 				</select> 

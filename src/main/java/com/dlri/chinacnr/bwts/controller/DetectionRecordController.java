@@ -57,7 +57,7 @@ public class DetectionRecordController {
 		map.put("gearboxNog", gearboxNog==null||gearboxNog.equals("")?null:"%"+gearboxNog+"%");
 		map.put("gearboxNop", gearboxNop==null||gearboxNop.equals("")?null:"%"+gearboxNop+"%");
 		map.put("bearingNo", bearingNo==null||bearingNo.equals("")?null:"%"+bearingNo+"%");
-		map.put("repairing", repairing==null||repairing.equals("")?null:repairing);
+		map.put("repairing", repairing==null||repairing.equals("全部")?null:repairing);
 		map.put("startDate", startDate==null||startDate.equals("")?null:startDate);
 		map.put("endDate", endDate==null||endDate.equals("")?null:endDate);
 		map.put("firstPage", pageBean.getFirstPage());
@@ -105,7 +105,7 @@ public class DetectionRecordController {
 		String endDate=request.getParameter("endDate");
 		String tBedName = request.getParameter("tBedName");
 		map.put("wheelCode", wheelCode.equals("")?null:"%"+wheelCode+"%");
-		map.put("repairing", repairing.equals("")?null:repairing);
+		map.put("repairing", repairing.equals("全部")?null:repairing);
 		map.put("startDate", startDate.equals("")?null:startDate);
 		map.put("endDate", endDate.equals("")?null:endDate);
 		map.put("firstPage", pageBean.getFirstPage());
@@ -169,7 +169,7 @@ public class DetectionRecordController {
 		map.put("gearboxNog", gearboxNog==null||gearboxNog.equals("")?null:"%"+gearboxNog+"%");
 		map.put("gearboxNop", gearboxNop==null||gearboxNop.equals("")?null:"%"+gearboxNop+"%");
 		map.put("bearingNo", bearingNo==null||bearingNo.equals("")?null:"%"+bearingNo+"%");
-		map.put("repairing", repairing==null||repairing.equals("")?null:repairing);
+		map.put("repairing", repairing==null||repairing.equals("全部")?null:repairing);
 		map.put("startDate", startDate==null||startDate.equals("")?null:startDate);
 		map.put("endDate", endDate==null||endDate.equals("")?null:endDate);
 		map.put("tBedName", tBedName==null||tBedName.equals("")||tBedName.equals("请选择") ? null : tBedName);
@@ -178,7 +178,7 @@ public class DetectionRecordController {
 		System.out.println(list.size()+"=====Statistical======"+startDate+"---"+endDate);
 		
 		reMap.put("rows", list);
-		map.put("evaluation","Z3");
+		map.put("evaluation","不合格");
 		List<Statistical> listN=detectionRecordService.queryStatistialRecordByCondition(map);
 		reMap.put("listN", listN);
 		//System.out.println(lis+"==============");

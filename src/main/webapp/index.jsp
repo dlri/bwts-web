@@ -80,8 +80,8 @@
 									float : "left"
 								    //display : "block"
 								}); //创建一个父div
-						var attr = (i + 1).toString().length < 2 ? "0"
-								+ (i + 1) : (i + 1);
+						var attr = (19-i + 1).toString().length < 2 ? "0"
+								+ (19-i + 1) : (19-i + 1);
 						parentdiv.attr('id', 'RUN0' + attr);//给子div设置id
 						unit.append(parentdiv);
 					});

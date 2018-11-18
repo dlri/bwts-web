@@ -78,11 +78,12 @@
             <!-- <tx:method name="*" propagation="REQUIRED" read-only="true" />  -->
         </tx:attributes>  
     </tx:advice>  
-  
+  <!-- 指明使用注解的方式来管理事务 -->
+    <tx:annotation-driven transaction-manager="transactionManager" />
     <!-- 配置事务切面 -->  
     <aop:config>  
         <aop:pointcut id="serviceOperation"  
-            expression="execution(* com.dlri.chinacnr.bwts.service.*.*(..))" />  
+            expression="execution(* com.dlri.chinacnr.bwts.service.*.impl*.*(..))" />  
         <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />  
     </aop:config>  
     
