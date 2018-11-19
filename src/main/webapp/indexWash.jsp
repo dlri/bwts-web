@@ -74,10 +74,9 @@
 							//backgroundImage : "url(img/unit_wash_hg.png)",
 							color : "#fff",
 							float : "left"
-							//display:"none"
 						}); //创建一个父div
-						var attr = (i + 1).toString().length < 2 ? "0"
-								+ (i + 1) : (i + 1);
+						var attr = (11+i + 1).toString().length < 2 ? "0"
+								+ (11+i + 1) : (11+i + 1);
 						parentdiv.attr('id', 'WASH0' + attr);//给子div设置id
 						unit.append(parentdiv);
 					});
@@ -85,11 +84,11 @@
 			//循环添加鼠标单击事件
 			$(new Array(4)).each(function(ii) {
 				//鼠标单击事件
-				var attr = (ii + 1).toString().length < 2 ? "0"+ (ii + 1) : (ii + 1);
+				var attr = (11+ii + 1).toString().length < 2 ? "0"+ (11+ii + 1) : (11+ii + 1);
 				$("#WASH0" + attr).click(function() {
 					//清除上次选中的边框为原默认色
 					$(new Array(4)).each(function(jj){
-					var attrj = (jj + 1).toString().length < 2 ? "0"+ (jj + 1): (jj + 1);
+					var attrj = (11+jj + 1).toString().length < 2 ? "0"+ (11+jj + 1): (11+jj + 1);
 					$("#WASH0"+ attrj).css({border : "1px solid #31334f"})});
 					//选中边框变色
 					$("#WASH0" + attr).css({border : "1px solid #9899a7"});
@@ -103,7 +102,7 @@
 				async : true,//异步方式
 				success : function(data) {
 					for (var i = 0; i < data.length; i++) {
-						var str = "'run','" + data[i].tBedNum + "','"
+						var str = "'wash','" + data[i].tBedNum + "','"
 								+ data[i].channelNum + "','" + data[i].wheelId
 								+ "','" + data[i].repairRank + "','"
 								+ data[i].aBearingNum + "','"
@@ -142,7 +141,7 @@
 		//判断当前浏览器是否支持WebSocket
 		if ('WebSocket' in window) {
 			websocket = new WebSocket('ws://' + window.location.host
-					+ '/bwts-web/websocket');
+					+ '/websocket');
 		} else {
 			alert('当前浏览器 Not support websocket')
 		}

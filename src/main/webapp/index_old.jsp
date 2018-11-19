@@ -66,45 +66,7 @@
 			//
 			var unit = $("#canvas");
 			//添加20台跑合台设备，默认不显示
-			$(new Array(5)).each(
-					function(i) {
-						var parentdiv = $("<div><br/><br/><br/></div>")
-								.css({
-									width : "380px",
-									height : "242px",
-									textAlign : "center",
-									cursor : "pointer",
-									margin : "0px 12px 12px 0px",
-									//backgroundImage : "url(img/unit_run_bhg.png)",
-									color : "#fff",
-									float : "left"
-								    //display : "block"
-								}); //创建一个父div
-						var attr = (10-i + 1).toString().length < 2 ? "0"
-								+ (10-i + 1) : (10-i + 1);
-						parentdiv.attr('id', 'RUN0' + attr);//给子div设置id
-						unit.append(parentdiv);
-					});
-					$(new Array(5)).each(
-					function(i) {
-						var parentdiv = $("<div><br/><br/><br/></div>")
-								.css({
-									width : "380px",
-									height : "242px",
-									textAlign : "center",
-									cursor : "pointer",
-									margin : "0px 12px 12px 0px",
-									//backgroundImage : "url(img/unit_run_bhg.png)",
-									color : "#fff",
-									float : "left"
-								    //display : "block"
-								}); //创建一个父div
-						var attr = (15-i + 1).toString().length < 2 ? "0"
-								+ (15-i + 1) : (15-i + 1);
-						parentdiv.attr('id', 'RUN0' + attr);//给子div设置id
-						unit.append(parentdiv);
-					});
-					$(new Array(4)).each(
+			$(new Array(20)).each(
 					function(i) {
 						var parentdiv = $("<div><br/><br/><br/></div>")
 								.css({
@@ -120,26 +82,6 @@
 								}); //创建一个父div
 						var attr = (19-i + 1).toString().length < 2 ? "0"
 								+ (19-i + 1) : (19-i + 1);
-						parentdiv.attr('id', 'RUN0' + attr);//给子div设置id
-						unit.append(parentdiv);
-					});
-					
-					$(new Array(6)).each(
-					function(i) {
-						var parentdiv = $("<div><br/><br/><br/></div>")
-								.css({
-									width : "380px",
-									height : "242px",
-									textAlign : "center",
-									cursor : "pointer",
-									margin : "0px 12px 12px 0px",
-									//backgroundImage : "url(img/unit_run_bhg.png)",
-									color : "#fff",
-									float : "left"
-								    //display : "block"
-								}); //创建一个父div
-						var attr = (5-i + 1).toString().length < 2 ? "0"
-								+ (5-i + 1) : (5-i + 1);
 						parentdiv.attr('id', 'RUN0' + attr);//给子div设置id
 						unit.append(parentdiv);
 					});
@@ -225,7 +167,7 @@
 		//判断当前浏览器是否支持WebSocket
 		if ('WebSocket' in window) {
 			websocket = new WebSocket('ws://' + window.location.host
-					+ '/websocket');
+					+ '/bwts-web/websocket');
 		} else {
 			alert('当前浏览器 Not support websocket')
 		}

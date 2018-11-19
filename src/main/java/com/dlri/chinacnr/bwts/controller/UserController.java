@@ -140,21 +140,21 @@ public class UserController {
 		_user.setUserno(loginName);
 		_user.setPwd(password);
 		User resultUser = userService.login(_user);
-		Long uid = resultUser.getId();
-		if (loginUser.size() > 0) {
-			Iterator<String> keys = loginUser.keySet().iterator();
-			String key = null;
-			while (keys.hasNext()) {
-				key = (String) keys.next();
-				LoginInfo loginInfo = loginUser.get(key);
-				Long uid_ = loginInfo.uid;
-				if (uid_ != null && uid_.equals(uid)) {
-					keys.remove();
-				}
-			}
-
-		}
 		if (resultUser != null) {
+			Long uid = resultUser.getId();
+			if (loginUser.size() > 0) {
+				Iterator<String> keys = loginUser.keySet().iterator();
+				String key = null;
+				while (keys.hasNext()) {
+					key = (String) keys.next();
+					LoginInfo loginInfo = loginUser.get(key);
+					Long uid_ = loginInfo.uid;
+					if (uid_ != null && uid_.equals(uid)) {
+						keys.remove();
+					}
+				}
+
+			}
 			Date time = new Date();
 			String ip = request.getHeader("X-Real-IP");
 			if (ip == null) {
@@ -178,8 +178,11 @@ public class UserController {
 			// "#" + new Date());
 			// cookie.setMaxAge(60 * 60 * 24 * 30); //设置cookie有效期为30天
 			// response.addCookie(cookie);//保存cookie
+			return "redirect:/index.do";
+		}else {
+			return "redirect:/login.jsp";
 		}
-		return "redirect:/index.do";
+		
 	}
 
 	/**
